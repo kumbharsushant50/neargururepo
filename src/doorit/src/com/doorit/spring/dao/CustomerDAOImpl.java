@@ -24,7 +24,6 @@ import com.doorit.spring.model.RequestService;
 import com.doorit.spring.model.User;
 import com.doorit.spring.model.UserRole;
 import com.doorit.spring.model.WrapRequestService;
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 @Repository
 public class CustomerDAOImpl implements CustomerDAO {
