@@ -114,11 +114,11 @@
                                         <li class="list-group-item"><i class="fa fa-calendar text-info"></i>&nbsp;${vendorRequests.serviceRequestedDate}	</li>
                                         <li class="list-group-item"><i class="fa fa-map-marker text-danger"></i>&nbsp;<c:if test="${vendorRequests.requestService.sublocality ne ''}"> ${vendorRequests.requestService.sublocality},</c:if>${vendorRequests.requestService.locality} </li>
                                        
-                                       <c:if test="${not empty vendorRequests.user.mobile}"> 
+                                     <%--   <c:if test="${not empty vendorRequests.user.mobile}"> 
                                         
                                          <li class="list-group-item"><i class="fa fa-phone text-success"></i>&nbsp;${vendorRequests.user.mobile}</li>  
                                        			
-                                       </c:if>
+                                       </c:if> --%>
                                       
                                         <li class="list-group-item"><i class="fa fa-th text-success"></i>&nbsp; <a href="${pageContext.request.contextPath}/viewBidService/${vendorRequests.quote.quoteId}">My Quotes </a></li>
                                       

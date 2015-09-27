@@ -106,34 +106,38 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 		
 		try{
 			
-		  	logger.info("mail to be  sent to user for new service request     -"+"method name - mailToUserRequest  "+this.getClass().getSimpleName());
-			Thread.sleep(10000);
+			if(wrapRequestService.getUser().isEnabled()){
 			
-			//System.out.println("I wack up ................");
-		    MimeMessagePreparator preparator = new MimeMessagePreparator() {
-			
-	        @SuppressWarnings({ "rawtypes", "unchecked" })
-			public void prepare(MimeMessage mimeMessage) throws Exception {
-	             MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-	             message.setTo(wrapRequestService.getUser().getEmailId());
-	             message.setBcc("kumar.anil.patel@gmail.com");
-	            // message.setFrom(new InternetAddress(suggestedPodcast.getEmailId()) );
-	             message.setFrom("Nearguru.com <info@nearguru.com>" );
-	             message.setSubject(wrapRequestService.getUser().getName()+" you have raised a "+wrapRequestService.getProduct().getProductName()+" request");
-	             message.setSentDate(new Date());
-	             Map model = new HashMap();	             
-	             model.put("wrapRequestService", wrapRequestService);
-	             
-	             String text = VelocityEngineUtils.mergeTemplateIntoString(
-	                velocityEngine, "com/doorit/spring/velocity/mailToUserRequest.vm", "UTF-8", model);
-	             message.setText(text, true);
-	          }
-	       };
-	       mailSender.send(preparator);
-	     	logger.info("mail  sent to user for new service request     -"+"method name - mailToUserRequest  "+this.getClass().getSimpleName());
-	       
-	       /* send mail to pros for this user service */
-	       mailToProsForRequest( wrapRequestService);
+				logger.info("mail to be  sent to user for new service request     -"+"method name - mailToUserRequest  "+this.getClass().getSimpleName());
+				Thread.sleep(10000);
+				
+				//System.out.println("I wack up ................");
+			    MimeMessagePreparator preparator = new MimeMessagePreparator() {
+				
+		        @SuppressWarnings({ "rawtypes", "unchecked" })
+				public void prepare(MimeMessage mimeMessage) throws Exception {
+		             MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+		             message.setTo(wrapRequestService.getUser().getEmailId());
+		             message.setBcc("kumar.anil.patel@gmail.com");
+		            // message.setFrom(new InternetAddress(suggestedPodcast.getEmailId()) );
+		             message.setFrom("Nearguru.com <info@nearguru.com>" );
+		             message.setSubject(wrapRequestService.getUser().getName()+" you have raised a "+wrapRequestService.getProduct().getProductName()+" request");
+		             message.setSentDate(new Date());
+		             Map model = new HashMap();	             
+		             model.put("wrapRequestService", wrapRequestService);
+		             
+		             String text = VelocityEngineUtils.mergeTemplateIntoString(
+		                velocityEngine, "com/doorit/spring/velocity/mailToUserRequest.vm", "UTF-8", model);
+		             message.setText(text, true);
+		          }
+		       };
+		       mailSender.send(preparator);
+		     	logger.info("mail  sent to user for new service request     -"+"method name - mailToUserRequest  "+this.getClass().getSimpleName());
+		       
+		       /* send mail to pros for this user service */
+		       mailToProsForRequest( wrapRequestService);
+			}
+		  	
 		
 		}catch(Exception e){
 			e.printStackTrace();
@@ -147,30 +151,34 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 		//System.out.println(">>>>>>>>>>>>>pros profile");
 		try{
 			
-		  	logger.info("mail to be  sent to pros for  new service request     -"+"method name - mailToPros  "+this.getClass().getSimpleName());
+			if(userProsProfile.getUser().isEnabled()){
+				
+				logger.info("mail to be  sent to pros for  new service request     -"+"method name - mailToPros  "+this.getClass().getSimpleName());
+			  	
+				Thread.sleep(10000);
+			MimeMessagePreparator preparator = new MimeMessagePreparator() {
+		        @SuppressWarnings({ "rawtypes", "unchecked" })
+				public void prepare(MimeMessage mimeMessage) throws Exception {
+		             MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+		             message.setTo(userProsProfile.getUser().getEmailId());
+		             message.setBcc("kumar.anil.patel@gmail.com");
+		            // message.setFrom(new InternetAddress(suggestedPodcast.getEmailId()) );
+		             message.setFrom("Nearguru.com <info@nearguru.com>");
+		             message.setSubject(userProsProfile.getUser().getName()+", welcome to www.nearguru.com");
+		             message.setSentDate(new Date());
+		             Map model = new HashMap();	             
+		             model.put("userProsProfile", userProsProfile);
+		             
+		             String text = VelocityEngineUtils.mergeTemplateIntoString(
+		                velocityEngine, "com/doorit/spring/velocity/mailToPros.vm", "UTF-8", model);
+		             message.setText(text, true);
+		          }
+		       };
+		       mailSender.send(preparator);
+		       
+		   	logger.info("mail  sent to pros for  new service request     -"+"method name - mailToPros  "+this.getClass().getSimpleName());
+			}
 		  	
-			Thread.sleep(10000);
-		MimeMessagePreparator preparator = new MimeMessagePreparator() {
-	        @SuppressWarnings({ "rawtypes", "unchecked" })
-			public void prepare(MimeMessage mimeMessage) throws Exception {
-	             MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-	             message.setTo(userProsProfile.getUser().getEmailId());
-	             message.setBcc("kumar.anil.patel@gmail.com");
-	            // message.setFrom(new InternetAddress(suggestedPodcast.getEmailId()) );
-	             message.setFrom("Nearguru.com <info@nearguru.com>");
-	             message.setSubject(userProsProfile.getUser().getName()+", welcome to www.nearguru.com");
-	             message.setSentDate(new Date());
-	             Map model = new HashMap();	             
-	             model.put("userProsProfile", userProsProfile);
-	             
-	             String text = VelocityEngineUtils.mergeTemplateIntoString(
-	                velocityEngine, "com/doorit/spring/velocity/mailToPros.vm", "UTF-8", model);
-	             message.setText(text, true);
-	          }
-	       };
-	       mailSender.send(preparator);
-	       
-	   	logger.info("mail  sent to pros for  new service request     -"+"method name - mailToPros  "+this.getClass().getSimpleName());
 		}catch(Exception e){
 			e.printStackTrace();
 			logger.info("mail to be  sent to pros for  new service request  has error    -"+"method name - mailToPros  "+this.getClass().getSimpleName()+"    -"+e.toString());
