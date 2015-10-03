@@ -113,11 +113,11 @@
                                          			   <li class="list-group-item"><form:radiobutton path="statusReason" value="Hired a friend or did it myself"/> I hired a friend or did it myself</li>
                                           			   <li class="list-group-item"><form:radiobutton path="statusReason" value="Had a change of plans"/> I had a change of plans</li>
                                            			    <li class="list-group-item"><form:radiobutton path="statusReason" value="Did not liked the Quotes i got"/> I did not liked the Quotes i got</li>
-                                   	
+                                   						 <li class="list-group-item"><form:radiobutton path="statusReason" value="Not a Valid Request"/> Not a Valid Request</li>
                           							
                           							</c:otherwise>
                           					</c:choose>
-                                   
+                                     
                                    			
                                   
                                 
