@@ -23,11 +23,11 @@
                              <li> <a  style="cursor:pointer"  onclick="openFooterLinks('https://www.facebook.com/neargurucom')" > <i class=" fa fa-facebook">   </i> </a> </li>
                            	 <li> <a  style="cursor:pointer"  onclick="openFooterLinks('https://twitter.com/Nearguru')"> <i class="fa fa-twitter">   </i> </a> </li>
                              <li> <a  style="cursor:pointer"  onclick="openFooterLinks('https://plus.google.com/+Nearguru')"  > <i class="fa fa-google-plus">   </i> </a> </li>
-                               <li> <a  style="cursor:pointer"  onclick="openFooterLinks('https://www.pinterest.com/neargurucom/')"  >  <i class="fa fa-pinterest"></i></a> </li>
+                         <!--       <li> <a  style="cursor:pointer"  onclick="openFooterLinks('https://www.pinterest.com/neargurucom/')"  >  <i class="fa fa-pinterest"></i></a> </li>
                              
-                             <li> <a  style="cursor:pointer"  onclick="openFooterLinks('https://www.linkedin.com/in/neargurucom')"  >  <i class="fa fa-linkedin"></i></a> </li>
-                                 <li> <a  style="cursor:pointer"  onclick="openFooterLinks('  https://instagram.com/neargurucom/')"  >  <i class="fa fa-instagram"></i></a> </li>
-                               
+ -->                             <li> <a  style="cursor:pointer"  onclick="openFooterLinks('https://www.linkedin.com/in/neargurucom')"  >  <i class="fa fa-linkedin"></i></a> </li>
+                                <!--  <li> <a  style="cursor:pointer"  onclick="openFooterLinks('  https://instagram.com/neargurucom/')"  >  <i class="fa fa-instagram"></i></a> </li>
+                         -->       
                             </ul>     
                                 </li>     
                                    
