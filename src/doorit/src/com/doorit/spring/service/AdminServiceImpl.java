@@ -2,19 +2,26 @@ package com.doorit.spring.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.doorit.spring.dao.AdminDAO;
+import com.doorit.spring.dao.CustomerDAO;
 import com.doorit.spring.model.Option;
 import com.doorit.spring.model.Product;
 import com.doorit.spring.model.ProductGroup;
+import com.doorit.spring.model.ProsProfile;
 import com.doorit.spring.model.Question;
+import com.doorit.spring.model.Reports;
 import com.doorit.spring.model.User;
+import com.doorit.spring.model.WrapRequestService;
 
 @Service
 public class AdminServiceImpl implements AdminService {
-	
+	@Autowired
+	private EmailNotificationService EmailNotificationService;
+	private CustomerDAO customerDAO;
 	private AdminDAO adminDAO;
 	
 		
@@ -224,10 +231,142 @@ public class AdminServiceImpl implements AdminService {
 		
 	}
 
+	@Transactional
+	@Override
+	public void saveVendorVerify(long pros_id, String verification) {
+		
+		ProsProfile proUser=this.adminDAO.getprosProfileById(pros_id);
+		proUser.setVerification(verification);
+		this.adminDAO.saveVendorVerify(proUser);
+		
+		if(proUser.getVerification().equals("Y"))
+		{
+		
+			User user=this.adminDAO.getUserById(proUser.getUser().getUserId());
+	     	//User user=this.customerDAO.getUserById(proUser.getUser().getUserId());
+		   WrapRequestService wrapRequestService =new WrapRequestService();
+		   wrapRequestService.setProUser(user);
+		
+	
+	    	this.EmailNotificationService.mailToProsForVerify(wrapRequestService);
+	    	//EmailNotificationService.mailToProsForVerify(wrapRequestService);
+		
+		}
+		
+		
+	}
+ 
+	@Transactional
+	@Override
+	public void visibleProductGroup(long productGroupId, String isActive) {
+
+		String methodName ="visibleProductGroup(long productGroupId, String isActive) ";
+		
+		//logger.info(methodName+ " visible or invisible ProductGroup>>"+this.getClass().getSimpleName());
+		
+		
+		ProductGroup productgroup=this.adminDAO.getProductGroupById(productGroupId);
+		//Product product=this.adminDAO.getProductById(productId);
+		if(isActive.equals("Y")){
+			
+		List<Product> productsList=this.adminDAO.listProductByProductGroup(productGroupId);
+			// on this call another method in service layer in which take list of products for the product group and set them as inactive
+			productgroup.setIsActive("N");;
+			for(Product productObj:productsList){
+				
+				Product product = this.adminDAO.getProductById(productObj.getProductId());
+				product.setIsActive("N");
+				this.adminDAO.visibleProduct(product);
+				this.adminDAO.visibleProductGroup(productgroup);
+			}
+			if(isActive.equals("N")){
+				
+				this.adminDAO.visibleProductGroup(productgroup);
+					}
+			
+			
+			
+			
+			
+		}
+		
+		
+		
+		
+		
+	}
+
+	@Transactional
+	@Override
+	public void visibleProduct(long productId, String isActive) {
+
+		String methodName ="visibleProduct(long productId, String isActive) ";
+		
+		
+		Product product=this.adminDAO.getProductById(productId);
+		ProductGroup productGroup=this.adminDAO.getProductGroupById(product.getProductGroup().getProductGroupId());
+		
+		
+		
+		
+			
+			if(isActive.equals("Y")){
+				
+				product.setIsActive("N");;
+				this.adminDAO.visibleProduct(product); 
+				int visibleProducts=this.adminDAO.getVisibleProductsCount(productGroup.getProductGroupId());
+				if(visibleProducts==0){
+					visibleProductGroup(productGroup.getProductGroupId(),"Y");
+				}
+			}
+			else 
+				if(isActive.equals("N")){
+					
+					
+				//List<ProductGroup> productsGroupList=this.adminDAO.listProductGroup();
+				product.setIsActive("Y");;
+				this.adminDAO.visibleProduct(product); 
+				 
+				productGroup.setIsActive("Y");
+				visibleProductGroup(productGroup.getProductGroupId(),"N");
+	        
+			}
+			
+			
+			
+			
+		
+		
+		
+		
+		
+	}
+
+	private void getvisibleProducts() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+		
 	
 
-
-
+	
 
 	
-}
+	/*@Transactional
+	@Override
+	public void saveVendorVerify(long pros_id, String verification) {
+		
+		//String methodName="saveVendorVerify(long userId, String verification)";
+		ProsProfile pros_id=this.adminDAO.getprosProfileById(pros_id);
+		pros_id.setVerification(verification);
+	   	this.adminDAO.saveVendorVerify(pros_id);
+		
+	}
+    */
+	
+	
+	
+		
+	}

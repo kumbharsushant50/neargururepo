@@ -96,7 +96,7 @@
 	 
 	 <!--  NeurGuru production data base configration      -->    
  	 
- 	            
+ 	<!--             
 	<beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
 		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<beans:property name="url"
@@ -105,18 +105,18 @@
 		<beans:property name="password" value="nearguru" />
 	</beans:bean>
 	 
-	   
+	    -->
 	   	 <!-- End -->   
 	   
- 	   <!--            
+ 	               
 	   <beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
 		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<beans:property name="url"
-			value="jdbc:mysql://localhost:3306/servebook" />
+			value="jdbc:mysql://localhost:3306/testschema" />
 		<beans:property name="username" value="root" />
 		<beans:property name="password" value="" />
 		</beans:bean>  
-      -->           
+               
            
 	   
  <!-- 
@@ -157,6 +157,8 @@
 				<beans:value>com.doorit.spring.model.Image</beans:value>
 				<beans:value>com.doorit.spring.model.UserRole</beans:value>
 				<beans:value>com.doorit.spring.model.Document</beans:value>
+				<beans:value>com.doorit.spring.model.ServiceAdvertisement</beans:value>
+				
 				
 			</beans:list>
 		</beans:property>
@@ -167,9 +169,9 @@
 			<beans:props>
 				<beans:prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect
 				</beans:prop>
-				<beans:prop key="hibernate.show_sql">false</beans:prop> 
+				<beans:prop key="hibernate.show_sql">true</beans:prop> 
 				
-				<beans:prop key="hibernate.hbm2ddl.auto">update</beans:prop>
+				<beans:prop key="hibernate.hbm2ddl.auto">create</beans:prop>
 				
 				
 			</beans:props>

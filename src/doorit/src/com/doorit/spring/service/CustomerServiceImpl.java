@@ -30,6 +30,7 @@ import com.doorit.spring.model.Question;
 import com.doorit.spring.model.Quotes;
 import com.doorit.spring.model.RequestAnswer;
 import com.doorit.spring.model.RequestService;
+import com.doorit.spring.model.ServiceAdvertisement;
 import com.doorit.spring.model.User;
 import com.doorit.spring.model.UserProsProfile;
 import com.doorit.spring.model.WrapRequestService;
@@ -499,6 +500,34 @@ public void toogleEmailSend(long userId, boolean enabledVal) {
 	user.setEnabled(enabledVal);
 	
 	this.customerDAO.toogleEmailSend(user);
+	
+	
+}
+/*
+ * 
+ *SUSHANT
+ * 
+ * 
+ * 
+*/
+@Transactional
+@Override
+public List<ServiceAdvertisement> getimageurl(long productId) {
+	
+	return this.customerDAO.getimageurl(productId );
+}
+
+@Transactional
+@Override
+public List<ServiceAdvertisement> getoffer(long productId) {
+	return this.customerDAO.getoffer(productId );
+	
+}
+
+@Transactional
+@Override
+public List<ServiceAdvertisement> getadds(long productId) {
+	return this.customerDAO.getadds(productId );
 	
 	
 }

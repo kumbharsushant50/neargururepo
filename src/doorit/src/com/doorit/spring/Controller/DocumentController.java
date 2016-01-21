@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.doorit.spring.dao.ProsDAOImpl;
 import com.doorit.spring.model.Document;
+import com.doorit.spring.model.ServiceAdvertisement;
 import com.doorit.spring.model.User;
 import com.doorit.spring.service.CustomerService;
 import com.doorit.spring.service.DocumentService;
@@ -244,5 +245,79 @@ public class DocumentController {
 		
 		return "redirect:/index.html";
 	}
+
+	
+	
+	
+	/*
+	**********************************SUSHANT(27-10-15(download replica))********************************
+*/
+	
+	@RequestMapping(value="/downloadfile/{documentId}",method=RequestMethod.GET)
+	public String downloadfile(@PathVariable("documentId")
+			long  documentId,  HttpServletResponse response) {
+		
+		
+		Document doc = documentService.getdownloadfile(documentId);
+		try {
+			response.setHeader("Content-Disposition", "inline;filename=\"" +doc.getFilename()+ "\"");
+			OutputStream out = response.getOutputStream();
+			response.setContentType(doc.getContentType());
+			IOUtils.copy(doc.getContent().getBinaryStream(), out);
+			out.flush();
+			out.close();
+		
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return null;
+	}
+	
+	/*@RequestMapping(value="/uploadpic/{productId}", method=RequestMethod.GET)
+	public String uploadpic(@PathVariable("productId") long productId, HttpServletResponse response)
+	{
+		//Document doc = documentService.getuploadpic(productId);
+		
+		ServiceAdvertisement serviceadvertisement=documentService.getuploadpic(productId);
+		
+		
+		try {
+			response.setHeader("Content-Disposition", "inline;filename=\"" +serviceadvertisement.getImageName()+ "\"");
+			OutputStream out = response.getOutputStream();
+			//response.setContentType(serviceadvertisement.getContent());
+			
+			IOUtils.copy(serviceadvertisement.getContent().getBinaryStream(), out);
+			out.flush();
+			out.close();
+		
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		
+		}
+		
+		
+		return null;
+		
+	}
+	
+	
+	
+	*/
+	
+	
+	/*
+	**********************************SUSHANT(27-10-15(download replica)) END********************************
+*/
+
+	
+	
+	
+	
 	
 }

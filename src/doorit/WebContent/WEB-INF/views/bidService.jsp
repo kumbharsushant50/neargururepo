@@ -130,8 +130,8 @@
                         <form:input id="quoteAmount"  min="1" step="1"  maxlength="7" type="number" oninvalid="this.setCustomValidity('Please enter amount')" oninput="setCustomValidity('')"  class="form-control invalid" required="required" path="amount" />
                     </div>
                 <div class="form-group">  
-                    <label><b>Quote Description (minimum 150 characters)</b></label>
-					<form:textarea minlength="150"  maxlength="500"   required="required" type="text" class="form-control"  oninvalid="this.setCustomValidity('Please enter description')"  oninput="setCustomValidity('')" path="message" rows="4" cols="38" />
+                    <label><b>Quote Description (minimum 100 characters)</b></label>
+					<form:textarea minlength="100"  maxlength="500"   required="required" type="text" class="form-control"  oninvalid="this.setCustomValidity('Please enter description')"  oninput="setCustomValidity('')" path="message" rows="4" cols="38" />
                         
                 </div>
 				  

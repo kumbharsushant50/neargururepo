@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.doorit.spring.model.Document;
+import com.doorit.spring.model.ServiceAdvertisement;
 import com.doorit.spring.model.User;
 
 @Repository
@@ -165,4 +166,111 @@ Session session = this.sessionFactory.getCurrentSession();
 		session.delete(document);
 		logger.info("  removed document successfully -"+"method name - remove  "+this.getClass().getSimpleName());
 	}
+
+
+	/*
+	**********************************SUSHANT(27-10-15(download replica))********************************
+*/
+	public Document getdownloadfile(long documentId) {
+	
+			Session session = this.sessionFactory.getCurrentSession();
+					
+		
+
+					String hql = "SELECT * FROM documents where Id=:documentId";
+				SQLQuery query = session.createSQLQuery(hql);
+				query.addEntity(Document.class);
+				
+			
+				query.setParameter("documentId", documentId);
+				
+				List<Document> document = query.list();
+				
+				if (document.size() !=0)
+				{
+					
+					
+				return (Document) document.get(0);
+				}else
+				{
+					return null;	
+				}
+					
+	}
+
+
+	/*@Override
+	public Document getuploadpic(long documentId) {
+		Session session = this.sessionFactory.getCurrentSession();
+		
+		String hql = "SELECT * FROM documents where Id=:documentId";
+	SQLQuery query = session.createSQLQuery(hql);
+	query.addEntity(Document.class);
+	query.setParameter("documentId", documentId);
+	
+	List<Document> document = query.list();
+	
+	if (document.size() !=0)
+	{
+		
+		
+	return (Document) document.get(0);
+	}else
+	{
+		return null;	
+	}
+	}
+
+	*/
+	
+	
+	
+	
+
+	@Override
+	public void save(MultipartFile file,ServiceAdvertisement serviceadvertisement) {
+		
+		Session session=sessionFactory.getCurrentSession();
+		Blob blob;
+		serviceadvertisement.setImageName(file.getOriginalFilename());
+		try{
+			blob=Hibernate.getLobCreator(session).createBlob(file.getInputStream(), -1);
+		
+				
+		}catch(IOException e){}
+		session.save(serviceadvertisement);
+		
+	}
+
+
+	/*@Override
+	public ServiceAdvertisement getuploadpic(long productId) {
+		
+		Session session =this.sessionFactory.getCurrentSession();
+
+		String hql = "SELECT * FROM ServiceAdvertisement where Id=:productId";
+	SQLQuery query = session.createSQLQuery(hql);
+	query.addEntity(ServiceAdvertisement.class);
+	
+
+	query.setParameter("productId", productId);
+	
+	List<Document> document = query.list();
+	
+	if (document.size() !=0)
+	{
+		
+		
+	return (ServiceAdvertisement) serviceadvertisement.get(0);
+	}else
+	{
+		return null;	
+	}
+		
+		
+	}
+	*/
+	/*
+	**********************************SUSHANT(27-10-15(download replica))END ********************************
+*/
 }

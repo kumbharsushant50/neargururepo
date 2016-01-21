@@ -386,8 +386,7 @@ $(function(){
         
         
         <!-- -----------------------------------------starts here------------------------------------------------------------- -->
-        
-        
+             
         <section class="section ">
 
 
@@ -602,7 +601,7 @@ $(function(){
                        
 
 
-                    
+               
                     
     </div>
  </form:form>
@@ -612,17 +611,64 @@ $(function(){
  <div class="col-xs-12 col-sm-12 col-md-offset-1 col-md-5" >  
                         <p style="font-size:24px;
 	color:#3c7088">How we work?</p>
-                        <p align="justify">In a couple of hours we will send you interested service provider's quotation, profile, their expertise and reviews. You can compare and select as per your specific need very easily. You get to hire the best!</p>
-                </div>
-               
-                </div>
-            </div>  
+                        <p align="justify">In a couple of hours we will send you interested service provider's quotation, profile, their expertise and reviews. You can compare and select as per your specific need very easily. You get to hire the best!</p> &nbsp;
+        
+
+ <div class="row" >
+ &nbsp;
+  <c:forEach items="${serviceAdv}" var="serviceAdv">
+        		 <div class="col-md-12 " >
+        		 	
+        		 	<img style="width:100%; height:100%" src="<c:url value="${serviceAdv.getText()}" />"  ></div>
+        		 	<br/>
+        		 	<div><hr> </div>
+        		 	
+        		  
+        	  </c:forEach> 	   
+        	
+ 	
+ </div>
  
+ <div class="row" >
+  <c:forEach items="${serviceAdvoffers}" var="serviceAdvoffers">
+        		 
+        		 	
+        		 	<div class="col-md-12 " >
+        		 	
+        		 	&nbsp;
+        		 	<p style="font-size:24px;
+                             	color:#3c7088">"${serviceAdvoffers.getText()}"
+                    </p>
+                    </div> 
+        		  
+        	  </c:forEach> 	   
+        	
+ 	
+ </div>
+ 
+ 
+ <div class="row" >
+  <c:forEach items="${serviceAdvadds}" var="serviceAdvadds">
+        		 
+        		 	
+        		 	<div class="col-md-12 " >
+        		 	&nbsp;
+        		 	<p style="font-size:24px;
+                             	color:#3c7088">"${serviceAdvadds.getText()}"
+                    </p>
+                    </div> 
+        		  
+        	  </c:forEach> 	   
+        	
+ 	
+ </div>
+ 
+  </div>
         </section>
         
         
         
-        
+       
         
         
         <!-- ------------------------------------------ends here------------------------------------------------------------- -->
@@ -630,6 +676,7 @@ $(function(){
       
         
 </div>
+ 
 
 <!-- footer -->
 <%@ include file="footer.jsp" %>

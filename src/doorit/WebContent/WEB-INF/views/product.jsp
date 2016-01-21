@@ -60,22 +60,35 @@
 				</div> 
 				 <c:if test="${!empty listProduct}"> 
 			 		<div class="row" style="margin-top:10px">  
-						<div class="col-md-2" ><b><label style="color: #1D4E64;font-size:15 ">Product  Id</label></b></div>
-						<div class="col-md-2" ><b><label style="color: #1D4E64;font-size:15 ">Product  Name</label></b></div>
+						<div class="col-md-1" ><b><label style="color: #1D4E64;font-size:15 ">Product  Id</label></b></div>
+						<div class="col-md-1" ><b><label style="color: #1D4E64;font-size:15 ">Product  Name</label></b></div>
 						<div class="col-md-2"><b><label style="color: #1D4E64;font-size:15 ">Product  Description</label></b></div> 
 						<div class="col-md-2"><b><label style="color: #1D4E64;font-size:15 ">Add Question</label></b></div> 
 						<div class="col-md-2"><b><label style="color: #1D4E64;font-size:15 ">Edit Product</label></b></div> 
 						<div class="col-md-2" ><b><label style="color: #1D4E64;font-size:15 ">Delete Product </label></b></div>  
+					    <div class="col-md-2"><b><label style="color: #1D4E64;font-size:15 ">Visible</label></b></div> 
+						
 					</div> 
 					<hr/>
 						<c:forEach items="${listProduct}" var="product">
 						<div class="row" style="margin-top:10px;margin-bottom:10px">  
-								<div class="col-md-2" ><b>${product.productId}</b></div>
-								<div class="col-md-2" ><b>${product.productName}</b></div> 
+								<div class="col-md-1" ><b>${product.productId}</b></div>
+								<div class="col-md-1" ><b>${product.productName}</b></div> 
 								<div class="col-md-2" ><b>${product.productDesc}</b></div> 
 								<div class="col-md-2" ><a class="btn btn-primary" href="<c:url value='/admin/addQuestion/${product.productId}' />">Add Question </a></div>
 								<div class="col-md-2" ><a class="btn btn-primary" href="<c:url value='/admin/editProduct/${productGroup.productGroupId}/${product.productId}' />" >Edit Product </a></div>
-								<div class="col-md-2" ><a class="btn btn-primary" href="<c:url value='/admin/deleteProduct/${productGroup.productGroupId}/${product.productId}' />" >Delete Product  </a></div> 
+								<div class="col-md-2" ><a class="btn btn-primary" href="<c:url value='/admin/deleteProduct/${productGroup.productGroupId}/${product.productId}' />" >Delete Product  </a></div>
+								
+								<div class="col-md-2">          
+							
+							<c:if test="${product.isActive eq 'Y'  }"> 
+								<a  href="${pageContext.request.contextPath}/admin/visibleProduct/${product.productId}/Y"  style="width:80%" class="btn btn-success">NO</a>
+							</c:if> <br/>
+							
+							 <c:if test="${product.isActive eq 'N'  }"> 
+								<a  href="${pageContext.request.contextPath}/admin/visibleProduct/${product.productId}/N"  style="width:80%" class="btn btn-success">YES</a>
+							 </c:if>
+						</div>    
 						</div>
 					</c:forEach> 
 			 </c:if>  

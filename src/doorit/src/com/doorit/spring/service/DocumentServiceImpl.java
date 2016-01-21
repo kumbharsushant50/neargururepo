@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.doorit.spring.dao.DocumentDAO;
 import com.doorit.spring.dao.ProsDAOImpl;
 import com.doorit.spring.model.Document;
+import com.doorit.spring.model.ServiceAdvertisement;
 import com.doorit.spring.model.User;
 
 @Service
@@ -85,8 +86,40 @@ public class DocumentServiceImpl implements DocumentService  {
 		logger.info("get quote file    -"+"method name - getQuoteFile  "+this.getClass().getSimpleName());
 		return documentDAO.getQuoteFile(prosId, requestId);
 	}
+
+	/*
+	**********************************SUSHANT(27-10-15(download replica))********************************
+*/
+	@Override
+	@Transactional
+	public Document getdownloadfile(long documentId) {
+		
+		return documentDAO.getdownloadfile(documentId);
 	
+	}
 	
+
+	/*@Override
+	@Transactional
+	public Document getuploadpic(long documentId) {
+		
+		return documentDAO.getuploadpic(documentId);
+	}*/
+
+	@Override
+	@Transactional
+	public void save(MultipartFile file,ServiceAdvertisement serviceadvertisement) {
+		documentDAO.save(file,serviceadvertisement);
+		
+	}
+
+/*	@Override
+	public ServiceAdvertisement getuploadpic(long productId) {
+		return documentDAO.getuploadpic(productId);
+	}*/
 	
+	/*
+	**********************************SUSHANT(27-10-15(download replica))END********************************
+*/
 	
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.doorit.spring.model.Document;
+import com.doorit.spring.model.ServiceAdvertisement;
 import com.doorit.spring.model.User;
 
 
@@ -17,6 +18,9 @@ public interface DocumentService {
 	public User get(long id) ;
 	public void remove(Integer id) ;
 	public Document getQuoteFile(long prosId,long requestId) ;
+	public Document getdownloadfile(long documentId);
+	//public ServiceAdvertisement getuploadpic(long productId);
+	public void save(MultipartFile file, ServiceAdvertisement serviceadvertisement);
 	
 	
 	

@@ -9,6 +9,7 @@ import com.doorit.spring.model.Question;
 import com.doorit.spring.model.Quotes;
 import com.doorit.spring.model.RequestAnswer;
 import com.doorit.spring.model.RequestService;
+import com.doorit.spring.model.ServiceAdvertisement;
 import com.doorit.spring.model.User;
 import com.doorit.spring.model.WrapRequestService;
 
@@ -48,5 +49,8 @@ public void saveRequestStatus(RequestService requestServiceObj);
 	public int getINProgressNo(String requestType,User user);
 	public int getWIPNo(String requestType,User user);
 	public void toogleEmailSend(User user);
+	public List<ServiceAdvertisement> getimageurl(long productId);
+	public List<ServiceAdvertisement> getoffer(long productId);
+	public List<ServiceAdvertisement> getadds(long productId);
 	
 }

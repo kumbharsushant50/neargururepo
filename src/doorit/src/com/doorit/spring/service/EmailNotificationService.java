@@ -17,5 +17,6 @@ public interface EmailNotificationService {
 	public void mailToprosawarded(WrapRequestService wrapRequestService,ProsProfile vendorObj);
 	public void mailforForgotPassword(User userObj);
 	public void mailToProsForUpdateRequestStatus(WrapRequestService wrapRequestService);
+	public void mailToProsForVerify(WrapRequestService wrapRequestService);
        
 }

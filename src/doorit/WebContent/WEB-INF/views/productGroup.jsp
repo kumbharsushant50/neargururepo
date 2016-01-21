@@ -69,22 +69,32 @@
 				</div> 
 			 <c:if test="${!empty listProductGroup}">
 			 		<div class="row" style="margin-top:10px">  
-						<div class="col-md-2" ><b><label style="color: #1D4E64;font-size:15 ">Product Grp Id</label></b></div>
-						<div class="col-md-2" ><b><label style="color: #1D4E64;font-size:15 ">Product Grp Name</label></b></div>
+						<div class="col-md-1" ><b><label style="color: #1D4E64;font-size:15 ">Product Grp Id</label></b></div>
+						<div class="col-md-1" ><b><label style="color: #1D4E64;font-size:15 ">Product Grp Name</label></b></div>
 						<div class="col-md-2"><b><label style="color: #1D4E64;font-size:15 ">Product Grp Description</label></b></div> 
 						<div class="col-md-2"><b><label style="color: #1D4E64;font-size:15 ">Add sub Product</label></b></div> 
 						<div class="col-md-2"><b><label style="color: #1D4E64;font-size:15 ">Edit Product Group</label></b></div> 
-						<div class="col-md-2" ><b><label style="color: #1D4E64;font-size:15 ">Delete Product Group</label></b></div>  
+						<div class="col-md-2" ><b><label style="color: #1D4E64;font-size:15 ">Delete Product Group</label></b></div>
+						<div class="col-md-2" ><b><label style="color: #1D4E64;font-size:15 ">Visible</label></b></div>  
 					</div> 
 					<hr/>
 					<c:forEach items="${listProductGroup}" var="productGroup">
 						<div class="row" style="margin-top:10px;margin-bottom:10px"> 
-								<div class="col-md-2" ><b>${productGroup.productGroupId}</b></div>
-								<div class="col-md-2" ><b>${productGroup.productGroupName}</b></div> 
+								<div class="col-md-1" ><b>${productGroup.productGroupId}</b></div>
+								<div class="col-md-1" ><b>${productGroup.productGroupName}</b></div> 
 								<div class="col-md-2" ><b>${productGroup.productGroupDesc}</b></div> 
 								<div class="col-md-2" ><a class="btn btn-primary" href="<c:url value='/admin/addProduct/${productGroup.productGroupId}' />" >Add Sub Product </a></div>
 								<div class="col-md-2" ><a class="btn btn-primary" href="<c:url value='/admin/editProductGroup/${productGroup.productGroupId}' />" >Edit Product Group </a></div>
-								<div class="col-md-2" ><a class="btn btn-primary"  href="<c:url value='/admin/deleteProductGroup/${productGroup.productGroupId}' />" >Delete Product Group </a></div> 
+								<div class="col-md-2" ><a class="btn btn-primary"  href="<c:url value='/admin/deleteProductGroup/${productGroup.productGroupId}' />" >Delete Product Group </a></div>
+								<div class="col-md-2">          
+							<c:if test="${productGroup.isActive eq 'Y'  }"> 
+								<a  href="${pageContext.request.contextPath}/admin/visibleProductGroup/${productGroup.productGroupId}/Y"  style="width:80%" class="btn btn-success">NO</a>
+							</c:if> <br/>
+							
+							<%--  <c:if test="${productGroup.isActive eq 'N'  }"> 
+								<a  href="${pageContext.request.contextPath}/admin/visibleProductGroup/${productGroup.productGroupId}/N"  style="width:80%" class="btn btn-success">YES</a>
+							 </c:if> --%>
+							</div>   
 						</div>
 					</c:forEach>  
 			 </c:if>    
@@ -119,7 +129,6 @@
 </div>
 
 
-  
 
 
 </body>

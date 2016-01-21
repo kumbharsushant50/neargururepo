@@ -1,11 +1,16 @@
 package com.doorit.spring.dao;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -13,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import com.doorit.spring.model.Option;
 import com.doorit.spring.model.Product;
 import com.doorit.spring.model.ProductGroup;
+import com.doorit.spring.model.ProsProfile;
 import com.doorit.spring.model.Question;
 import com.doorit.spring.model.RequestService;
 import com.doorit.spring.model.User;
@@ -421,6 +427,146 @@ public void updateQuestion(Question questionObj) {
 	}
 	
 }
+
+
+
+
+
+
+
+/*@Override
+public User getUserById(long userId) {
+	Session session = this.sessionFactory.getCurrentSession();	
+	User user= (User) session.get(User.class, new Long(userId));
+	return user;
+}*/
+
+/*@Override
+public ProsProfile getprosProfileById(long userId) {
+	Session session = this.sessionFactory.getCurrentSession();
+	ProsProfile pros_id=(ProsProfile) session.get(ProsProfile.class, new Long(userId));
+	return pros_id;
+}*/
+
+
+@Override
+public void saveVendorVerify(ProsProfile pros_id) {
+	Session session = this.sessionFactory.getCurrentSession();
+	session.saveOrUpdate(pros_id);
+	
+	
+}
+
+
+@Override
+public ProsProfile getprosProfileById(long pros_id) {
+	Session session=this.sessionFactory.getCurrentSession();
+	ProsProfile ProsId=(ProsProfile) session.get(ProsProfile.class, new Long(pros_id));
+	return ProsId;
+	
+	
+}
+
+
+@Override
+public void visibleProductGroup(ProductGroup productgroup) {
+	
+	 String methodName ="visibleProductGroup(ProductGroup productgroup) ";
+	logger.info(methodName+"visible or invisible ProductGroup>>"+this.getClass().getName());
+	//Session session = this.sessionFactory.getCurrentSession();
+	try{
+		Session session = this.sessionFactory.getCurrentSession();
+		session.saveOrUpdate(productgroup);
+		logger.info(methodName+"  visible or invisible ProductGroup completed successfully -"+"method name - isvisible  "+this.getClass().getSimpleName());
+	}
+	catch(Exception ex){
+		StringWriter stack = new StringWriter();
+		ex.printStackTrace(new PrintWriter(stack));
+		logger.info(methodName+"  -visible or invisible ProductGroup completed successfully -"+"method name - isvisible  "+ex.toString());
+		
+	}
+	
+	
+}
+
+
+@Override
+public void visibleProduct(Product product) {
+	 	String methodName ="visibleProduct(Product product) ";
+	logger.info(methodName+"visible or invisible Product>>"+this.getClass().getName());
+	//Session session = this.sessionFactory.getCurrentSession();
+	try{
+		Session session = this.sessionFactory.getCurrentSession();
+		session.saveOrUpdate(product);
+		logger.info(methodName+"  visible or invisible Product completed successfully -"+"method name - isvisible  "+this.getClass().getSimpleName());
+	}
+	catch(Exception ex){
+		StringWriter stack = new StringWriter();
+		ex.printStackTrace(new PrintWriter(stack));
+		logger.info(methodName+"  -visible or invisible Product completed successfully -"+"method name - isvisible  "+ex.toString());
+		
+	}
+	
+}
+
+
+@Override
+public List<Product> getProductListById(long id) {
+	
+	Session session = this.sessionFactory.getCurrentSession();
+	@SuppressWarnings("unchecked")
+	List<Product> productsList = session.createQuery("from Product where productGroup_id = "+ id).list();
+	for(Product q : productsList){
+		logger.info("Product List::"+q);
+	//return productsList;
+}
+	return productsList;
+
+
+
+
+
+
+}
+
+
+@Override
+public int getVisibleProductsCount(long productGroupId) {
+	
+
+	logger.info("getUserServiceRequests called>>"+this.getClass().getSimpleName());
+	Session session = this.sessionFactory.getCurrentSession();
+	
+	
+	
+
+	String hql = "SELECT * FROM PRODUCT where is_active"  + 
+             "=:is_active and productGroup_id=:productGroup_id";
+SQLQuery query = session.createSQLQuery(hql);
+query.addEntity(Product.class);
+
+query.setParameter("is_active", "Y");
+query.setParameter("productGroup_id",productGroupId);
+
+List<Product> activeProductsList = query.list();
+
+
+//	@SuppressWarnings("unchecked")
+//	List<RequestService> serviceRequestList = session.createQuery("from RequestService where UserId = " + user.getUserId()+" and status="+requestType).list();
+	
+	logger.info("list of service request retrieved successfully >>"+activeProductsList.size()+">>"+this.getClass().getSimpleName());
+	return activeProductsList.size();
+}
+
+
+@Override
+public User getUserById(long userId) {
+	Session session = this.sessionFactory.getCurrentSession();	
+	User user= (User) session.get(User.class, new Long(userId));
+	return user;
+}
+
+
 
 
 }

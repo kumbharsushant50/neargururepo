@@ -16,6 +16,7 @@ import java.util.UUID;
 
 
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -40,6 +41,7 @@ import com.doorit.spring.model.ProsProfile;
 import com.doorit.spring.model.Question;
 import com.doorit.spring.model.Quotes;
 import com.doorit.spring.model.RequestService;
+import com.doorit.spring.model.ServiceAdvertisement;
 import com.doorit.spring.model.User;
 import com.doorit.spring.model.UserProsProfile;
 import com.doorit.spring.model.WrapRequestService;
@@ -448,7 +450,7 @@ try{
 		
 		try{
 		 session.setAttribute("user", user);
-		 if(user.getEmailId().contains("adminSB007")){
+		 if(user.getEmailId().contains("info")){
 					user.setUserType("admin");
 		 }else{
 			 user.setUUIDNo(UUID.randomUUID());
@@ -642,7 +644,13 @@ try{
 				//model.addAttribute("product",p);
 				
 				model.addAttribute("getFormatted_address",this.customerService.getProductById(wrapRequestService.getRequestService().getProdcutId()));
-
+				 List<ServiceAdvertisement> serviceAdv=this.customerService.getimageurl(wrapRequestService.getRequestService().getProdcutId());
+			       model.addAttribute("serviceAdv", serviceAdv);
+			       List<ServiceAdvertisement> serviceAdvoffers=this.customerService.getoffer(wrapRequestService.getRequestService().getProdcutId());
+			       model.addAttribute("serviceAdvoffers", serviceAdvoffers);
+			       List<ServiceAdvertisement> serviceAdvadds=this.customerService.getadds(wrapRequestService.getRequestService().getProdcutId());
+			       model.addAttribute("serviceAdvadds", serviceAdvadds);
+			       
 				//p = this.customerService.getProductById(p.getProductId());
 				model.addAttribute("product",this.customerService.getProductById(wrapRequestService.getRequestService().getProdcutId()));
 				List<Question> questionList =this.customerService.getQuesByProductId(wrapRequestService.getRequestService().getProdcutId());
@@ -657,6 +665,7 @@ try{
 		      }
 		       
 		       model.addAttribute("fromdata",fromdata);
+		       
 
 				
 				return "servicerequest";
@@ -684,6 +693,7 @@ try{
 			}
 			}else{
 		wrapRequestService.getUser().setUserType("cust");
+		wrapRequestService.getUser().setUUIDNo(UUID.randomUUID());
 		
 	   User user=this.customerService.addCustUser(wrapRequestService.getUser());
 		//System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>"+wrapRequestService.getUser().getUserId());
@@ -929,6 +939,18 @@ try{
 			model.addAttribute("getFormatted_address",this.customerService.getProductById(id));
 			model.addAttribute("product",this.customerService.getProductById(id));
 			
+			  List<ServiceAdvertisement> serviceAdv=this.customerService.getimageurl(id);
+		       model.addAttribute("serviceAdv", serviceAdv);
+
+		       List<ServiceAdvertisement> serviceAdvoffers=this.customerService.getoffer(id);
+		       model.addAttribute("serviceAdvoffers", serviceAdvoffers);
+		       
+		       
+		       List<ServiceAdvertisement> serviceAdvadds=this.customerService.getadds(id);
+		       model.addAttribute("serviceAdvadds", serviceAdvadds);
+		       
+		       
+			
 			List<Question> questionList =this.customerService.getQuesByProductId(id);
 			
 			LinkedHashMap<Question,List<Option>> fromdata = new LinkedHashMap<Question, List<Option>>();
@@ -969,10 +991,26 @@ try{
 	        for (Question q1 : questionList){
 	    	  List<Option> optionList =this.customerService.getOptionByQueId(q1.getQueId());
 	    	  fromdata.put(q1, optionList);
+	    	
 	    	 
 	      }
 	       
 	       model.addAttribute("fromdata",fromdata);
+	       
+	       List<ServiceAdvertisement> serviceAdv=this.customerService.getimageurl(userProsProfile.getProduct().getProductId());
+	       model.addAttribute("serviceAdv", serviceAdv);
+	       
+	       
+	       List<ServiceAdvertisement> serviceAdvoffers=this.customerService.getoffer(userProsProfile.getProduct().getProductId());
+	       model.addAttribute("serviceAdvoffers", serviceAdvoffers);
+	       
+	       
+	       List<ServiceAdvertisement> serviceAdvadds=this.customerService.getadds(userProsProfile.getProduct().getProductId());
+	       model.addAttribute("serviceAdvadds", serviceAdvadds);
+	       
+	       
+	       
+	       
 	       return "servicerequest";
 	   }
 		

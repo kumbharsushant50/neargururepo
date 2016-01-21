@@ -104,10 +104,10 @@ font-size:30px;
 
                             <table class="table table-striped">
                                 <tbody>
-                                  <%-- <tr>
+                                   <tr>
                                         <td ><b>Mobile</b></td>
                                         <td><i class="fa fa-phone text-success"></i>&nbsp;${vendorProfile.user.mobile}</td>
-                                    </tr> --%>
+                                    </tr> 
                                    
                                     <c:if test="${not empty  vendorProfile.user.address}">
                                     <tr>

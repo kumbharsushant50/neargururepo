@@ -138,7 +138,7 @@
             
           
           
-            <section id="section-about " class="section">
+           <!--  <section id="section-about " class="section">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12"> 
@@ -146,7 +146,7 @@
                                 <div class="row text-left">
                                     <div class="col-md-offset-2 col-md-6">
                                         <div>
-                                            <h5 class="heading"><b>updated Feb 2,2015 </b></h5>
+                                            <h5 class="heading"><b> </b></h5>
 
                                         </div>
                                     </div>
@@ -155,7 +155,7 @@
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> -->
          
    </div>
 

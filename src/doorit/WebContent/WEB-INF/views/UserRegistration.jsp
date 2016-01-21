@@ -68,14 +68,14 @@
     </script>
     <script>
        
-      /*  function checkForm(){
-    	  
-    	   var passwordlen=$("#password").val().length;
-    	  
-    		  
-    		  $('#userReg').submit();
-    	
-       } */
+    $(function() {
+  	  var txt = $("#password");
+  	  var func = function() {
+  	    txt.val(txt.val().replace(/\s/g, ''));
+  	  }
+  	  txt.keyup(func).blur(func);
+  	});
+    
       $(function(){
      // alert("OK")
         $("#geocomplete").geocomplete({

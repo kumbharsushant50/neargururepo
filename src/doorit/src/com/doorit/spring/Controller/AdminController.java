@@ -15,16 +15,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.doorit.spring.model.Document;
 import com.doorit.spring.model.Option;
 import com.doorit.spring.model.Product;
 import com.doorit.spring.model.ProductGroup;
+import com.doorit.spring.model.ProsProfile;
 import com.doorit.spring.model.Question;
+import com.doorit.spring.model.Quotes;
+import com.doorit.spring.model.Reports;
+import com.doorit.spring.model.RequestService;
+import com.doorit.spring.model.ServiceAdvertisement;
 import com.doorit.spring.model.Tag;
 import com.doorit.spring.model.User;
+import com.doorit.spring.model.WrapQuotesMail;
 import com.doorit.spring.model.WrapRequestService;
 import com.doorit.spring.service.AdminService;
 import com.doorit.spring.service.CustomerService;
+import com.doorit.spring.service.DocumentService;
 import com.doorit.spring.service.ProsService;
 
 
@@ -36,8 +45,12 @@ public class AdminController {
 	
 	@Autowired
 	private CustomerService customerService;
+	
 	@Autowired
 	private ProsService prosService;
+	
+	@Autowired
+	private  DocumentService documentService;
 	
 	@Autowired(required=true)
 	@Qualifier(value="adminService")
@@ -445,6 +458,8 @@ public class AdminController {
 		List<Product> productList =this.adminService.listProductByTag(tagName);
 		
 		for (Product l : productList){
+			if(l.getIsActive().equals("Y"))
+		{
 			Tag  t = new Tag();
 			//System.out.println();
 			t.setId(l.getProductId());
@@ -452,7 +467,7 @@ public class AdminController {
 			result.add(t);
 			//System.out.println("---------------"+t.getId());
 			//System.out.println("-------------"+t.getTagName());
-			
+			}
 		}
 		
 		
@@ -467,6 +482,78 @@ public class AdminController {
 		return "PopularServices";
 	}
 	
+	
+	
+	@RequestMapping(value = "/admin/VendorVerify/{pros_id}/{verification}", method = RequestMethod.GET)
+	public String VendorVerify(@PathVariable("pros_id") long pros_id,@PathVariable("verification") String verification)  {
 		
+		
+		this.adminService.saveVendorVerify(pros_id,verification);
+		
+		
+		return "redirect:/admin/fetchVendors";
+	}
+		
+	
+		
+	@RequestMapping(value= "/admin/visibleProductGroup/{productGroupId}/{isActive}" , method=RequestMethod.GET)
+	public String  visibleProductGroup(@PathVariable("productGroupId") long productGroupId,@PathVariable("isActive") String isActive){
+		
+			this.adminService.visibleProductGroup(productGroupId,isActive);
+		
+		return "redirect:/admin/productGroup";
+		
+	}
+	
+	@RequestMapping(value= "/admin/visibleProduct/{productId}/{isActive}" , method=RequestMethod.GET)
+	public String  visibleProduct(@PathVariable("productId") long productId,@PathVariable("isActive") String isActive){
+		
+		Product productObj=this.adminService.getProductById(productId);
+			this.adminService.visibleProduct(productId,isActive);
+		
+	
+	    return "redirect:/admin/addProduct/"+productObj.getProductGroup().getProductGroupId();
+		
+	}
+	
+	/*
+	**********************************SUSHANT(26-10-15(Upload replica))********************************
+*/
+
+	@RequestMapping(value= "/admin/marketingPanel", method = RequestMethod.GET)
+	public String upload(HttpSession session){
+	
+			
+	return "Verify";
+	
+	}
+
+	@RequestMapping(value="/admin/uploads",method=RequestMethod.POST)
+	public String uploads(HttpSession session, @RequestParam("file") MultipartFile file)
+	{
+		
+		ServiceAdvertisement serviceadvertisement =new ServiceAdvertisement();
+		documentService.save(file, serviceadvertisement);
+		System.out.println("Upload success");
+		
+		
+		return "Verify";
+		
+		
+	}
+	
+	
+	@RequestMapping(value = "/admin/ServiceAdvertisement/add" , method = RequestMethod.POST)
+	public String addServiceAdv(@ModelAttribute("serviceAdvertisement") ServiceAdvertisement ServiceAdd) {
+		
+	System.out.println("OK");
+		
+	return "Verify";
+	}
+	
+	
+	/*
+	**********************************SUSHANT(26-10-15(Upload replica))END ********************************
+*/
 	
 }

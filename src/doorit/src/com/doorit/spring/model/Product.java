@@ -53,7 +53,7 @@ public class Product implements java.io.Serializable{
 	private long approverComments; 
 	
 	@Column(name="is_active")
-	String isActive;
+	String isActive="Y";
 	
 	
 	public String getApprovedBy() {

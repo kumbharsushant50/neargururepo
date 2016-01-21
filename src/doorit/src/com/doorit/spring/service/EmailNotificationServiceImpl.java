@@ -106,7 +106,8 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 		
 		try{
 			
-			if(wrapRequestService.getUser().isEnabled()){
+			/*if(wrapRequestService.getUser().isEnabled())*/
+			{
 			
 				logger.info("mail to be  sent to user for new service request     -"+"method name - mailToUserRequest  "+this.getClass().getSimpleName());
 				Thread.sleep(10000);
@@ -118,13 +119,14 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 				public void prepare(MimeMessage mimeMessage) throws Exception {
 		             MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 		             message.setTo(wrapRequestService.getUser().getEmailId());
-		             message.setBcc("kumar.anil.patel@gmail.com");
+		            // message.setBcc("kumar.anil.patel@gmail.com");
 		            // message.setFrom(new InternetAddress(suggestedPodcast.getEmailId()) );
 		             message.setFrom("Nearguru.com <info@nearguru.com>" );
 		             message.setSubject(wrapRequestService.getUser().getName()+" you have raised a "+wrapRequestService.getProduct().getProductName()+" request");
 		             message.setSentDate(new Date());
 		             Map model = new HashMap();	             
 		             model.put("wrapRequestService", wrapRequestService);
+		             
 		             
 		             String text = VelocityEngineUtils.mergeTemplateIntoString(
 		                velocityEngine, "com/doorit/spring/velocity/mailToUserRequest.vm", "UTF-8", model);
@@ -151,7 +153,7 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 		//System.out.println(">>>>>>>>>>>>>pros profile");
 		try{
 			
-			if(userProsProfile.getUser().isEnabled()){
+			/*if(userProsProfile.getUser().isEnabled())*/{
 				
 				logger.info("mail to be  sent to pros for  new service request     -"+"method name - mailToPros  "+this.getClass().getSimpleName());
 			  	
@@ -161,7 +163,7 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 				public void prepare(MimeMessage mimeMessage) throws Exception {
 		             MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 		             message.setTo(userProsProfile.getUser().getEmailId());
-		             message.setBcc("kumar.anil.patel@gmail.com");
+		            // message.setBcc("kumar.anil.patel@gmail.com");
 		            // message.setFrom(new InternetAddress(suggestedPodcast.getEmailId()) );
 		             message.setFrom("Nearguru.com <info@nearguru.com>");
 		             message.setSubject(userProsProfile.getUser().getName()+", welcome to www.nearguru.com");
@@ -241,6 +243,7 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 				if(list.isEnabled()){
 				
 					try{
+						//wrapQuotesMail.setProUser(list);
 						MimeMessagePreparator preparator = new MimeMessagePreparator() {
 					        @SuppressWarnings({ "rawtypes", "unchecked" })
 							public void prepare(MimeMessage mimeMessage) throws Exception {
@@ -253,7 +256,8 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 					             message.setFrom("Nearguru.com <info@nearguru.com>");
 					             message.setSubject(wrapQuotesMail.getUser().getName()+" is looking  for "+wrapQuotesMail.getProduct().getProductName()+" professional like you");
 					             message.setSentDate(new Date());
-					             Map model = new HashMap();	             
+					             Map model = new HashMap();	  
+					             wrapQuotesMail.setProUser(list);
 					             model.put("wrapRequestService", wrapQuotesMail);
 					             model.put("professionalName", list.getName());
 					             String text = VelocityEngineUtils.mergeTemplateIntoString(
@@ -294,7 +298,7 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 				logger.info("mail to be  sent to pro for  project being awarded      -"+"method name - mailToprosawarded  "+this.getClass().getSimpleName());
 						Thread.sleep(10000);
 						
-					
+						
 				      MimeMessagePreparator preparator = new MimeMessagePreparator() {
 					        @SuppressWarnings({ "rawtypes", "unchecked" })
 							public void prepare(MimeMessage mimeMessage) throws Exception {
@@ -306,7 +310,8 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 					             message.setFrom("Nearguru.com <info@nearguru.com>");
 					             message.setSubject("Congratulations "+ vendorObj.getCompanyName()+","+wrapRequestService.getProduct().getProductName()+" assignment has been awarded to you by "+wrapRequestService.getUser().getName());
 					             message.setSentDate(new Date());
-					             Map model = new HashMap();	             
+					             Map model = new HashMap();	   
+					             wrapRequestService.setProUser(vendorObj.getUser());
 					             model.put("wrapRequestService", wrapRequestService);
 					             model.put("vendorObj", vendorObj);
 					             
@@ -403,7 +408,8 @@ for(final User list : wrapRequestService.getListProsForMail()){
 				             message.setFrom("Nearguru.com <info@nearguru.com>");
 				             message.setSubject(wrapRequestService.getUser().getName()+" has closed his "+wrapRequestService.getProduct().getProductName()+" request");
 				             message.setSentDate(new Date());
-				             Map model = new HashMap();	             
+				             Map model = new HashMap();	     
+				             wrapRequestService.setProUser(list);
 				             model.put("wrapRequestService", wrapRequestService);
 				             model.put("professionalName", list.getName());
 				             String text = VelocityEngineUtils.mergeTemplateIntoString(
@@ -429,6 +435,58 @@ for(final User list : wrapRequestService.getListProsForMail()){
 
 
 
+	
+	@Async
+	@Override
+	public void mailToProsForVerify(final WrapRequestService wrapRequestService) {
+
+		logger.info("mail to be sent to Pros after its verification    -"
+				+ "method name - mailToProsForVerify  "
+				+ this.getClass().getSimpleName());
+
+		try {
+			// System.out.println("I am sleeping ................");
+			Thread.sleep(10000);
+
+			// System.out.println("I wack up ................");
+			MimeMessagePreparator preparator = new MimeMessagePreparator() {
+				@SuppressWarnings({ "rawtypes", "unchecked" })
+				public void prepare(MimeMessage mimeMessage) throws Exception {
+
+					MimeMessageHelper message = new MimeMessageHelper(
+							mimeMessage);
+					message.setTo(wrapRequestService.getProUser().getEmailId());
+
+					message.setFrom("Nearguru.com <info@nearguru.com>");
+					message.setSubject("Congratulations , "
+							+ wrapRequestService.getProUser().getName()
+							   + "   Your verification is Successful");
+					message.setSentDate(new Date());
+					Map model = new HashMap();
+					model.put("wrapRequestService", wrapRequestService);
+
+					String text = VelocityEngineUtils
+							.mergeTemplateIntoString(
+									velocityEngine,
+									"com/doorit/spring/velocity/mailToProsForVerify.vm",
+									"UTF-8", model);
+					message.setText(text, true);
+
+				}
+			};
+			mailSender.send(preparator);
+			logger.info("mail  sent to user for new user    -"
+					+ "method name - mailToUser  "
+					+ this.getClass().getSimpleName());
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			logger.info("mail  sent to user for has  error    -"
+					+ "method name - mailToUser  "
+					+ this.getClass().getSimpleName() + "   -" + e.toString());
+		}
+
+	}
 	
 
 

@@ -17,7 +17,7 @@
 						<tbody>
 							<tr style>
 								<td style="margin:0;padding:20px;color:#666666;font:14px/19px 'Helvetica Neue',Helvetica,Arial,sans-serif">
-								Hi ${vendorObj.companyName}<br/>
+								Hi ${wrapRequestService.getProUser().getName()}<br/>
 								
 							
 								</td>
@@ -26,25 +26,15 @@
 								<td style="margin:0;padding:20px;color:#666666;font:14px/19px 'Helvetica Neue',Helvetica,Arial,sans-serif">
 								
 								
-								Congratulations!!!<br/><br/> ${wrapRequestService.user.name} has awarded you the project for his ${wrapRequestService.product.productName} request
+								Congratulations ${wrapRequestService.getProUser().getName()}  Your Verification is successful <br/><br/> 
 								</td>
 							</tr>
-							<tr>
-								<td style="margin:0;padding:20px;color:#666666;font:14px/19px 'Helvetica Neue',Helvetica,Arial,sans-serif">
-								 Quotation details:
-								</td>
-							</tr>
-							<tr>
-								<td style="margin:0;padding:20px;color:#666666;font:14px/19px 'Helvetica Neue',Helvetica,Arial,sans-serif">
-								Quoted Amount : <b>${wrapRequestService.quote.amount} INR</b>	<br/>	<br/>
-									Message : <b>${wrapRequestService.quote.message}</b>
-								</td>
-							</tr>
+							
 							
 							<tr>
 								<td>
 								<div  align="center" valign="middle" style="margin-right:40%;margin-left:20%;background-color:#1D4E64;font:18px/28px 'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:normal;padding:15px 20px">
-								<a  style="display:block;text-decoration:none;" href="http://localhost:8080/doorit/email/verify/${wrapRequestService.ProUser.emailId}/${wrapRequestService.ProUser.UUIDNo}"><span style="color:#ffffff">View Request</span></a>
+								<a  style="display:block;text-decoration:none;" href="http://localhost:8080/doorit/email/verify/${wrapRequestService.getProUser().getEmailId()}/${wrapRequestService.getProUser().getUUIDNo()}"><span style="color:#ffffff">View Yor DashBoard</span></a>
 					</div><br/>
 								</td>
 							</tr>

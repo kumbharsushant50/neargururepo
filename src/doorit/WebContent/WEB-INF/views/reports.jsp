@@ -79,7 +79,9 @@
 						</div>   
 						<div class="col-md-1"> 
 							<b>Service Date</b>   
-						</div>   
+						</div> 
+						
+						
 				</div>
 		
 		 <c:forEach var="reportObj" items="${reportList}">
@@ -104,11 +106,18 @@
 						</div>   
 						<div class="col-md-1">   
 							<b>${reportObj.date}</b>  
-						</div>   
-				</div>
-				<hr/>  
-		 </c:forEach>
-	</div>
+						</div> 
+						
+				 </div>
+				   
+				   
+				   
+				   
+		    </c:forEach>
+		    
+		  
+		    
+	     </div>
 </section>
 		
 			

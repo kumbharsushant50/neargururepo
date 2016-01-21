@@ -1,6 +1,7 @@
 package com.doorit.spring.Controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -265,15 +266,18 @@ public class ProsController {
 		
 		logger.info("leads of vendors will be displayed   -"+"method name - manageRequest  "+this.getClass().getSimpleName());
 		model.addAttribute("wrapRequestService", new WrapRequestService());
+		
 		User user = new User();
-		if (session.getAttribute("user") != null)
+		
+		if (session.getAttribute("user") != null  )
 		{
 			user =  (User) session.getAttribute("user");
 			model.addAttribute("user",user);
 		}
 		List<WrapRequestService> leads= this.prosService.fetchProsDashboard(user);
+	
 		model.addAttribute("userRequests", leads);
-		
+	   
 		model.addAttribute("LeadsNo", leads.size());
 	
 		
@@ -470,14 +474,17 @@ public class ProsController {
 		
 	}
 	@RequestMapping(value = "/addPros", method = RequestMethod.POST)
-	public String createuser(Model model,@ModelAttribute("userProsProfile") UserProsProfile userProsProfile , HttpSession session) {
+	public String createuser(Model model, @ModelAttribute("userProsProfile") UserProsProfile userProsProfile , HttpSession session) {
 	
 		
 		logger.info("pros registration started   -"+"method name - createuser  "+this.getClass().getSimpleName());
 		
 		try{
+			
+			
 		userProsProfile.getUser().setUserType("pros");
 		userProsProfile.getUser().setUUIDNo(UUID.randomUUID());
+		
 		 this.customerService.addUser(userProsProfile);
 		//System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>HHHHHHHHHHHHHHHHHHhh");
 		session.setAttribute("user", userProsProfile.getUser());
@@ -485,20 +492,27 @@ public class ProsController {
 		WrapSuccessError.setSuceess(true);
 		//WrapSuccessError.setAction(userProsProfile.getUser().getEmailId()+"already Exists");
 		model.addAttribute("wrapSuccessError", WrapSuccessError);
-		
+			
 		this.messageService.messagetoVendorSignUp(userProsProfile.getUser());
 		
 				
 		return "redirect:/prosDashboard"; 
 		}
 		catch(Exception ex){
+			
 			WrapSuccessError.setSuceess(false);
 			WrapSuccessError.setAction(userProsProfile.getUser().getEmailId()+" " +"already exists");
 			model.addAttribute("wrapSuccessError", WrapSuccessError);
 			
 			model.addAttribute("userProsProfile", userProsProfile);
 			model.addAttribute("productGroup", new Product());
-			model.addAttribute("listProductGroup", this.adminService.listProduct());
+			String listedIn=userProsProfile.getProfile().getListedIn();
+			List<String> productList=Arrays.asList(listedIn.split(","));
+			ProductGroup productGroup=this.adminService.getProductGroupById(Long.parseLong(productList.get(0)));
+			model.addAttribute("listProductGroup", this.adminService.listProductByProductGroup(productGroup.getProductGroupId()));
+			
+			//model.addAttribute("listProductGroup", this.adminService.listProductByProductGroup(productGroupId));
+			//model.addAttribute("listProductGroup", this.adminService.listProductByProductGroup(new Long(userProsProfile.getProductGroupId())));
 			
 			  
 			//model.addAttribute("product", new Product());
@@ -624,6 +638,7 @@ if(isSuccess){
 			user =  (User) session.getAttribute("user");
 			model.addAttribute("user",user);
 		}
+		
 		Map<Long,ProductGroupWrapper> productGroupWrapperList=new  HashMap<Long,ProductGroupWrapper>();
 		prosProfile=this.prosService.editProfile(user);
 		String[] productsListed=prosProfile.getListedIn().split(",");
@@ -645,8 +660,13 @@ if(isSuccess){
 			for(Long listedProduct :productsListedin){
 				
 				ProductGroupWrapper productGroupWrapper=new ProductGroupWrapper();
+				//blocking the already existing prducts
+				//productGroupWrapper.setLive_productGroup(product.isLive_product());
+				productGroupWrapper.setIsActive(product.getIsActive());
+				
 				if(listedProduct==product.getProductId()){
 					
+				
 					productGroupWrapper.setListed(true);
 					productGroupWrapper.setProductGroupId(product.getProductId());
 					productGroupWrapper.setProductGroupName(product.getProductName());
@@ -728,9 +748,11 @@ if(isSuccess){
 		productGroup=this.adminService.listProductByProductGroup(productGroupObj.getProductGroupId());
 		for(Product product:productGroup){
 			
+			
 			for(Long listedProduct :productsListedin){
 				
 				ProductGroupWrapper productGroupWrapper=new ProductGroupWrapper();
+				productGroupWrapper.setIsActive(product.getIsActive());
 				if(listedProduct==product.getProductId()){
 					
 					productGroupWrapper.setListed(true);
@@ -741,7 +763,7 @@ if(isSuccess){
 				else {
 					
 					//System.out.println(productGroupWrapperList.get(product.getProductGroupId()));
-					
+				productGroupWrapper.setIsActive(product.getIsActive());
 					if(productGroupWrapperList.get(product.getProductId())==null){
 						productGroupWrapper.setListed(false);
 					productGroupWrapper.setProductGroupId(product.getProductId());
@@ -830,6 +852,7 @@ if(isSuccess){
 			for(Long listedProduct :productsListedin){
 				
 				ProductGroupWrapper productGroupWrapper=new ProductGroupWrapper();
+				productGroupWrapper.setIsActive(product.getIsActive());
 				if(listedProduct==product.getProductId()){
 					
 					productGroupWrapper.setListed(true);
@@ -986,6 +1009,25 @@ try{
 		User user=(User) session.getAttribute("loggedUser");
 		return user;
 	}
+	
+
+	
+	
+	
+
+	@RequestMapping(value = "/pros", method = RequestMethod.GET)
+	public String pros1(Model model,@ModelAttribute("userProsProfile") UserProsProfile userProsProfile) {
+		return "prosRegistration";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }
