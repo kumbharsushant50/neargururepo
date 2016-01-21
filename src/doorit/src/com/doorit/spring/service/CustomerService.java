@@ -7,7 +7,6 @@ import com.doorit.spring.model.Product;
 import com.doorit.spring.model.Question;
 import com.doorit.spring.model.RequestAnswer;
 import com.doorit.spring.model.RequestService;
-import com.doorit.spring.model.ServiceAdvertisement;
 import com.doorit.spring.model.User;
 import com.doorit.spring.model.UserProsProfile;
 import com.doorit.spring.model.WrapRequestService;
@@ -40,8 +39,4 @@ public interface CustomerService {
 	public int getWIPNo(String string,User user);
 	public boolean isVendorVerified(User user);
 	public void toogleEmailSend(long userId, boolean enabledVal);
-	public List<ServiceAdvertisement> getimageurl(long productId);
-	public List<ServiceAdvertisement> getoffer(long productId);
-	public List<ServiceAdvertisement> getadds(long productId);
-	
 }

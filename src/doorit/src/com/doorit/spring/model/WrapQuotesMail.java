@@ -21,7 +21,6 @@ public class WrapQuotesMail {
 	
 	private User user;
 	
-	private User ProUser;
 	
 	private String message;
 	
@@ -116,14 +115,6 @@ public class WrapQuotesMail {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-	public User getProUser() {
-		return ProUser;
-	}
-
-	public void setProUser(User proUser) {
-		ProUser = proUser;
 	}
 
 }

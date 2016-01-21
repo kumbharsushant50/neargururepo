@@ -40,7 +40,7 @@ public class User implements Serializable {
 	private long userId;
 	
 	//private String username;
-	private boolean enabled;
+	private boolean enabled =true;
 	
 	private UUID UUIDNo;
 	

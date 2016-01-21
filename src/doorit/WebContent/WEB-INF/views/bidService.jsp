@@ -93,15 +93,16 @@
     <!-- HEADER SECTION -->
     <%@ include file="header.jsp" %>
  <section>
-        <div class="row" style="margin-bottom:20px">
+        <div class="row" style="margin-bottom:20px"> 
             <div class="col-md-12 bg-color">
                <div class="container">
-                   <h2 class=""> <a href="${pageContext.request.contextPath}/prosDashboard" title=""><i class="fa fa-arrow-circle-o-left"></i></a>   Bid now - ${requestAnswer.product_name} </h2>
+                   <h2 class=""> <a href="${pageContext.request.contextPath}/prosDashboard" title=""><i class="fa fa-arrow-circle-o-left"></i></a>   Bid now - ${requestAnswer.product_name}<br/>You have ${creditBalance.balanceCreditPoint} credits,Send Quote ${CreditProductMap.creditPoint} </h2>
+              	 
                </div>
            </div>
 
-       </div>
-   </section>
+       </div>  
+   </section> 
      
 <div class="container-fluid">
     <!-- END HEADER SECTION -->
@@ -119,6 +120,8 @@
                   <c:url var="placeBid" value="/placeBid" ></c:url>
                     <form:form action="${placeBid}" id="bidForm" commandName="quotes" enctype="multipart/form-data" >
                     
+                    
+                    
                    <div class="panel-body">
                             
                           <c:set var="serviceRequestId" value="${requestAnswer.requestId}"/>  
@@ -130,17 +133,19 @@
                         <form:input id="quoteAmount"  min="1" step="1"  maxlength="7" type="number" oninvalid="this.setCustomValidity('Please enter amount')" oninput="setCustomValidity('')"  class="form-control invalid" required="required" path="amount" />
                     </div>
                 <div class="form-group">  
-                    <label><b>Quote Description (minimum 100 characters)</b></label>
-					<form:textarea minlength="100"  maxlength="500"   required="required" type="text" class="form-control"  oninvalid="this.setCustomValidity('Please enter description')"  oninput="setCustomValidity('')" path="message" rows="4" cols="38" />
+                    <label><b>Quote Description (minimum 15 characters)</b></label>
+					<form:textarea minlength="15"  maxlength="500"   required="required" type="text" class="form-control"  oninvalid="this.setCustomValidity('Please enter description')"  oninput="setCustomValidity('')" path="message" rows="4" cols="38" />
                         
                 </div>
 				  
 				<c:if test="${!empty requestAnswer}">
 				<form:hidden  path="requestId" value="${requestAnswer.requestId}" ></form:hidden>
 				
+				
 				</c:if>
 				
 				
+				  
                 <BR>
                
          <%--  </form:form> --%>
@@ -157,22 +162,19 @@
                   
                  <div class="form-group">
                
-                 		
-              
-               
-                 		
-               
-                 	
+
                  		<p>By clicking Submit, you indicate that you have read and agree to the <a style="cursor:pointer" onclick="openFooterLinks('termsOfUsage')">Terms of Use </a>and <a style="cursor:pointer" onclick="openFooterLinks('privacyPolicy')">Privacy Policy</a>.</p>
                  		 <input type="submit" class="btn btn-success"	id="submitBid" value="<spring:message text="Submit"/>" />
-                 
+                 					
+                 					
+                                 	
                  
               </div>
                  
              
               
               <br/>
-			
+									
               
               </form:form>
       </div>
@@ -348,7 +350,8 @@
 
 
 </div>
-</div>              
+</div>           
+   
 </section>
 </div>
 <!-- footer -->

@@ -21,18 +21,16 @@ import com.doorit.spring.model.Question;
 import com.doorit.spring.model.Quotes;
 import com.doorit.spring.model.RequestAnswer;
 import com.doorit.spring.model.RequestService;
-import com.doorit.spring.model.ServiceAdvertisement;
 import com.doorit.spring.model.User;
 import com.doorit.spring.model.UserRole;
 import com.doorit.spring.model.WrapRequestService;
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 @Repository
 public class CustomerDAOImpl implements CustomerDAO {
 
 	
 	private static final Logger logger = LoggerFactory.getLogger(CustomerDAOImpl.class);
-
-	
 
 	private SessionFactory sessionFactory;
 	
@@ -53,7 +51,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 	
 	
 	UserRole role = new UserRole();
-	if(user.getEmailId().contains("info")){
+	if(user.getEmailId().contains("info@nearguru.com")){
 	//	user.setUserType("admin");
 	role.setRole("ROLE_ADMIN");
 	}else {
@@ -610,64 +608,6 @@ public void toogleEmailSend(User user) {
 	
 }
 
-/*
- * 
- * SUSHANT 
- * 
- * 	
- * 
- * 
- * 
-*/
-@Override
-public List<ServiceAdvertisement> getimageurl(long productId) {
-
-	Session session=this.sessionFactory.getCurrentSession();
-	
-	String hql = "SELECT * FROM serviceadvertisement where product_id=:productId and  content_type='image'";
-    SQLQuery query = session.createSQLQuery(hql);
-    query.addEntity(ServiceAdvertisement.class);
-    query.setParameter("productId", productId);
-   // query.setParameter("content_type", image);
-    List<ServiceAdvertisement> serviceAdv=query.list();
-	
-	return serviceAdv;
-	
-}
-
-@Override
-public List<ServiceAdvertisement> getoffer(long productId) {
-	
-Session session=this.sessionFactory.getCurrentSession();
-	
-	String hql = "SELECT * FROM serviceadvertisement where product_id=:productId and  content_type='offer'";
-    SQLQuery query = session.createSQLQuery(hql);
-    query.addEntity(ServiceAdvertisement.class);
-    query.setParameter("productId", productId);
-   // query.setParameter("content_type", image);
-    List<ServiceAdvertisement> serviceAdvoffers=query.list();
-	
-	return serviceAdvoffers;
-	
-}
-
-@Override
-public List<ServiceAdvertisement> getadds(long productId) {
-	
-Session session=this.sessionFactory.getCurrentSession();
-	
-	String hql = "SELECT * FROM serviceadvertisement where product_id=:productId and  content_type='adds'";
-    SQLQuery query = session.createSQLQuery(hql);
-    query.addEntity(ServiceAdvertisement.class);
-    query.setParameter("productId", productId);
-   // query.setParameter("content_type", image);
-    List<ServiceAdvertisement> serviceAdvadds=query.list();
-	
-	return serviceAdvadds;
-
-	
-	
-}
 
 
 }

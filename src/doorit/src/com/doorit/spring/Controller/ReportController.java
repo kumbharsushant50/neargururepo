@@ -2,8 +2,6 @@ package com.doorit.spring.Controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,14 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.doorit.spring.model.Document;
 import com.doorit.spring.model.Reports;
 import com.doorit.spring.model.User;
 import com.doorit.spring.model.WrapSuccessError;
-import com.doorit.spring.service.DocumentService;
 import com.doorit.spring.service.ReportService;
 
 
@@ -29,7 +23,6 @@ public class ReportController {
 	
 	@Autowired
 	ReportService reportService;
-
 	
 	
 	/***********************************copyright@Nearguru************************************************************
@@ -74,10 +67,4 @@ public class ReportController {
 		LOGGER.debug("fetch professionals initiated"+" - method name - "+methodname+" - "+ this.getClass().getSimpleName());	
 		return "vendorreports";
 	}
-	
-
-	
-	
-	
-	
 }

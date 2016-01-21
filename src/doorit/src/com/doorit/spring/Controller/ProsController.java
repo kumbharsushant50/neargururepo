@@ -1,7 +1,6 @@
 package com.doorit.spring.Controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.doorit.spring.model.CreditBalance;
+import com.doorit.spring.model.CreditPack;
+import com.doorit.spring.model.CreditProductMap;
 import com.doorit.spring.model.Document;
 import com.doorit.spring.model.Feedback;
 import com.doorit.spring.model.FeedbackWrapper;
@@ -39,6 +41,7 @@ import com.doorit.spring.model.WrapQuotesMail;
 import com.doorit.spring.model.WrapRequestService;
 import com.doorit.spring.model.WrapSuccessError;
 import com.doorit.spring.service.AdminService;
+import com.doorit.spring.service.CreditPointService;
 import com.doorit.spring.service.CustomerService;
 import com.doorit.spring.service.CustomerServiceImpl;
 import com.doorit.spring.service.DocumentService;
@@ -61,6 +64,9 @@ public class ProsController {
 	
 	@Autowired
 	private DocumentService documentService;
+	
+	@Autowired
+	CreditPointService creditPointService;
 	
 	@Autowired
 	private MessageService messageService;
@@ -132,14 +138,26 @@ public class ProsController {
 		 * 
 		 */
 	@RequestMapping(value= "/placeBid", method = RequestMethod.POST)
-	public String addBids(@ModelAttribute("quotes") Quotes quotes , HttpSession session,@RequestParam("file") MultipartFile file){
+	public String addBids(@ModelAttribute("quotes") Quotes quotes , HttpSession session,@RequestParam("file") MultipartFile file,Model model,@ModelAttribute("creditPack") CreditPack  creditPack, @ModelAttribute("creditProductMap") CreditProductMap creditProductMap){
 		
+		
+		/*
+		 * 
+		 * dummy values - need to be discussed
+		 */
+		//int creditPoint =10;
+		//CreditProductMap creditProductMap=null;
 		
 		logger.info("place a bid on request called   -"+"method name - addBids  "+this.getClass().getSimpleName());
 		if (session.getAttribute("user") != null)
 		{
-			Document document=new Document();
+			
 			User user =  (User) session.getAttribute("user");
+			
+			CreditBalance creditBalance=this.creditPointService.getCreditBalanceByUserId(user.getUserId());
+			
+			Document document=new Document();
+			
 			quotes.setProsId(user.getUserId());
 			quotes.setStatus("IP"); //
 			//System.out.println("File:" + file.getName());
@@ -148,10 +166,7 @@ public class ProsController {
 			document.setProsId(user.getUserId());
 			document.setRequestId(quotes.getRequestId());
 			//System.out.println("file name>>>>>"+file.getName());
-			if(file.getSize()!=0){
-			documentService.save(file,document);
-			}
-			this.prosService.placeBid(quotes);
+			
 			/* mail servie */
 			
 			// need requested user email and name 
@@ -159,12 +174,12 @@ public class ProsController {
 			// need request id + product name 
 			
 			// fetch user id form request id 
-			
+			WrapQuotesMail wrapQuotesMail=null;
 			RequestService requestService = this.customerService.getRequestServiceById(quotes.getRequestId());
 			Product product=this.customerService.getProductById(requestService.getProdcutId());
 			if(requestService.getUserId()!=0){
 				User cust = this.customerService.getUserById(requestService.getUserId());
-				WrapQuotesMail wrapQuotesMail = new WrapQuotesMail();
+				 wrapQuotesMail = new WrapQuotesMail();
 				wrapQuotesMail.setProsEmail(cust.getEmailId()); // email
 				wrapQuotesMail.setCustName(cust.getName()); // name
 				wrapQuotesMail.setAmount(quotes.getAmount()); // quote amt
@@ -174,8 +189,7 @@ public class ProsController {
 				wrapQuotesMail.setProductDesc(product.getProductDesc());
 				wrapQuotesMail.setEnabled(cust.isEnabled());
 				wrapQuotesMail.setUser(cust);
-				mainMailService.mailQuotes(wrapQuotesMail);
-				messageService.sendQuotationMsg(wrapQuotesMail);
+				
 				
 			}
 			
@@ -184,8 +198,35 @@ public class ProsController {
 			
 			/* mail to pros */
 			
+			//request id is available
+			//requestService object
+			//product id  fetch
+			//product id ke basis 
 			
-		
+			creditProductMap=this.creditPointService.getCreditProductMapByProductId(product.getProductId());
+			if(creditBalance.getBalanceCreditPoint()<creditProductMap.getCreditPoint()){
+				
+				List<CreditPack> creditPackList=this.creditPointService.retrieveCreditPackages();
+				
+				model.addAttribute("creditPackList", creditPackList);
+				model.addAttribute("CreditPack", creditPack);
+				model.addAttribute("CreditProductMap", creditProductMap);
+				return "packages";
+			}
+			else{
+			
+				if(file.getSize()!=0){
+					documentService.save(file,document);
+					}
+					this.prosService.placeBid(quotes);
+				
+				mainMailService.mailQuotes(wrapQuotesMail);
+				messageService.sendQuotationMsg(wrapQuotesMail);
+				
+			this.creditPointService.deductCreditBalance(user,creditProductMap);
+			this.creditPointService.addcreditExpenseHistory(requestService,quotes,creditProductMap,user);
+			
+			}
 		}
 		
 		
@@ -195,10 +236,12 @@ public class ProsController {
 	}
 	
 	@RequestMapping(value = "/bidService", method = { RequestMethod.GET, RequestMethod.POST })
-	public String bidService(Model model ,@ModelAttribute("document") Document document, @ModelAttribute("wrapRequestService") WrapRequestService wrapRequestService,HttpSession session) {
+	public String bidService(Model model ,@ModelAttribute("document") Document document,@ModelAttribute("CreditPack")CreditPack creditPack, @ModelAttribute("wrapRequestService") WrapRequestService wrapRequestService,HttpSession session) {
 		
 		logger.info("user can bid service  now   -"+"method name - bidService  "+this.getClass().getSimpleName());
 		
+		//CreditBalance creditBalance;
+		//CreditProductMap creditProductMap;
 		model.addAttribute("quotes", new Quotes());
 	
 		model.addAttribute("document", new Document());
@@ -209,15 +252,36 @@ public class ProsController {
 			user =  (User) session.getAttribute("user");
 			model.addAttribute("user",user);
 		}
+		
+		//creditBalance= this.creditPointService.getCreditBalanceByUserId(user.getUserId());
+		
 		model.addAttribute("requestAnswer", this.prosService.getAnswerById(wrapRequestService.getRequestAnswer().getRequestId()));
 		List<WrapRequestService> leads= this.prosService.fetchProsDashboard(user);
 		model.addAttribute("LeadsNo", leads.size());
 		RequestService requestService=this.customerService.getRequestServiceById(wrapRequestService.getRequestAnswer().getRequestId());
+		//creditProductMap=this.creditPointService.getCreditProductMapByProductId(requestService.getProdcutId());
 		Product product=this.adminService.getProductById(requestService.getProdcutId());
 		model.addAttribute("product", product);
+		model.addAttribute("creditBalance", this.creditPointService.getCreditBalanceByUserId(user.getUserId()));
+		model.addAttribute("CreditProductMap", this.creditPointService.getCreditProductMapByProductId(requestService.getProdcutId()));
 		model.addAttribute("serviceReqeustedUser", this.customerService.getServiceUser(requestService.getRequestId()));
 		model.addAttribute("requestService", requestService);
 		
+	/*	if(creditBalance.getBalanceCreditPoint()<0){
+			
+			List<CreditPack> creditPackList=this.creditPointService.retrieveCreditPackages();
+			
+			model.addAttribute("creditPackList", creditPackList);
+			model.addAttribute("CreditPack", creditPack);
+			return "packages";
+		}
+		*/
+		/*************************************************************
+		 * 
+		 * 
+		 * test code for credit balance
+		 */
+	//	this.ad
 		return "bidService";
 	}
 	
@@ -266,18 +330,15 @@ public class ProsController {
 		
 		logger.info("leads of vendors will be displayed   -"+"method name - manageRequest  "+this.getClass().getSimpleName());
 		model.addAttribute("wrapRequestService", new WrapRequestService());
-		
 		User user = new User();
-		
-		if (session.getAttribute("user") != null  )
+		if (session.getAttribute("user") != null)
 		{
 			user =  (User) session.getAttribute("user");
 			model.addAttribute("user",user);
 		}
 		List<WrapRequestService> leads= this.prosService.fetchProsDashboard(user);
-	
 		model.addAttribute("userRequests", leads);
-	   
+		
 		model.addAttribute("LeadsNo", leads.size());
 	
 		
@@ -474,17 +535,14 @@ public class ProsController {
 		
 	}
 	@RequestMapping(value = "/addPros", method = RequestMethod.POST)
-	public String createuser(Model model, @ModelAttribute("userProsProfile") UserProsProfile userProsProfile , HttpSession session) {
+	public String createuser(Model model,@ModelAttribute("userProsProfile") UserProsProfile userProsProfile , HttpSession session) {
 	
 		
 		logger.info("pros registration started   -"+"method name - createuser  "+this.getClass().getSimpleName());
 		
 		try{
-			
-			
 		userProsProfile.getUser().setUserType("pros");
 		userProsProfile.getUser().setUUIDNo(UUID.randomUUID());
-		
 		 this.customerService.addUser(userProsProfile);
 		//System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>HHHHHHHHHHHHHHHHHHhh");
 		session.setAttribute("user", userProsProfile.getUser());
@@ -492,27 +550,22 @@ public class ProsController {
 		WrapSuccessError.setSuceess(true);
 		//WrapSuccessError.setAction(userProsProfile.getUser().getEmailId()+"already Exists");
 		model.addAttribute("wrapSuccessError", WrapSuccessError);
-			
+		
 		this.messageService.messagetoVendorSignUp(userProsProfile.getUser());
 		
+		
+		this.creditPointService.addCreditBalance(userProsProfile.getUser());
 				
 		return "redirect:/prosDashboard"; 
 		}
 		catch(Exception ex){
-			
 			WrapSuccessError.setSuceess(false);
 			WrapSuccessError.setAction(userProsProfile.getUser().getEmailId()+" " +"already exists");
 			model.addAttribute("wrapSuccessError", WrapSuccessError);
 			
 			model.addAttribute("userProsProfile", userProsProfile);
 			model.addAttribute("productGroup", new Product());
-			String listedIn=userProsProfile.getProfile().getListedIn();
-			List<String> productList=Arrays.asList(listedIn.split(","));
-			ProductGroup productGroup=this.adminService.getProductGroupById(Long.parseLong(productList.get(0)));
-			model.addAttribute("listProductGroup", this.adminService.listProductByProductGroup(productGroup.getProductGroupId()));
-			
-			//model.addAttribute("listProductGroup", this.adminService.listProductByProductGroup(productGroupId));
-			//model.addAttribute("listProductGroup", this.adminService.listProductByProductGroup(new Long(userProsProfile.getProductGroupId())));
+			model.addAttribute("listProductGroup", this.adminService.listProduct());
 			
 			  
 			//model.addAttribute("product", new Product());
@@ -638,7 +691,6 @@ if(isSuccess){
 			user =  (User) session.getAttribute("user");
 			model.addAttribute("user",user);
 		}
-		
 		Map<Long,ProductGroupWrapper> productGroupWrapperList=new  HashMap<Long,ProductGroupWrapper>();
 		prosProfile=this.prosService.editProfile(user);
 		String[] productsListed=prosProfile.getListedIn().split(",");
@@ -660,13 +712,8 @@ if(isSuccess){
 			for(Long listedProduct :productsListedin){
 				
 				ProductGroupWrapper productGroupWrapper=new ProductGroupWrapper();
-				//blocking the already existing prducts
-				//productGroupWrapper.setLive_productGroup(product.isLive_product());
-				productGroupWrapper.setIsActive(product.getIsActive());
-				
 				if(listedProduct==product.getProductId()){
 					
-				
 					productGroupWrapper.setListed(true);
 					productGroupWrapper.setProductGroupId(product.getProductId());
 					productGroupWrapper.setProductGroupName(product.getProductName());
@@ -748,11 +795,9 @@ if(isSuccess){
 		productGroup=this.adminService.listProductByProductGroup(productGroupObj.getProductGroupId());
 		for(Product product:productGroup){
 			
-			
 			for(Long listedProduct :productsListedin){
 				
 				ProductGroupWrapper productGroupWrapper=new ProductGroupWrapper();
-				productGroupWrapper.setIsActive(product.getIsActive());
 				if(listedProduct==product.getProductId()){
 					
 					productGroupWrapper.setListed(true);
@@ -763,7 +808,7 @@ if(isSuccess){
 				else {
 					
 					//System.out.println(productGroupWrapperList.get(product.getProductGroupId()));
-				productGroupWrapper.setIsActive(product.getIsActive());
+					
 					if(productGroupWrapperList.get(product.getProductId())==null){
 						productGroupWrapper.setListed(false);
 					productGroupWrapper.setProductGroupId(product.getProductId());
@@ -852,7 +897,6 @@ if(isSuccess){
 			for(Long listedProduct :productsListedin){
 				
 				ProductGroupWrapper productGroupWrapper=new ProductGroupWrapper();
-				productGroupWrapper.setIsActive(product.getIsActive());
 				if(listedProduct==product.getProductId()){
 					
 					productGroupWrapper.setListed(true);
@@ -1009,25 +1053,6 @@ try{
 		User user=(User) session.getAttribute("loggedUser");
 		return user;
 	}
-	
-
-	
-	
-	
-
-	@RequestMapping(value = "/pros", method = RequestMethod.GET)
-	public String pros1(Model model,@ModelAttribute("userProsProfile") UserProsProfile userProsProfile) {
-		return "prosRegistration";
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 }

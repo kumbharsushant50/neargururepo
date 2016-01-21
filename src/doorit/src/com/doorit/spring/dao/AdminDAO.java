@@ -5,9 +5,7 @@ import java.util.List;
 import com.doorit.spring.model.Option;
 import com.doorit.spring.model.Product;
 import com.doorit.spring.model.ProductGroup;
-import com.doorit.spring.model.ProsProfile;
 import com.doorit.spring.model.Question;
-import com.doorit.spring.model.Reports;
 import com.doorit.spring.model.User;
 
 public interface AdminDAO {
@@ -39,17 +37,5 @@ public interface AdminDAO {
 	public void deleteProduct(long productId);
 	void deleteProductGroup(long productGroupId);
 	public void updateQuestion(Question questionObj);
-	
-	public void saveVendorVerify(ProsProfile pros_id);
-	//public User getUserById(long userId);
-	//public ProsProfile getprosProfileById(long userId);
-	ProsProfile getprosProfileById(long pros_id);
-	public void visibleProductGroup(ProductGroup productgroup);
-	public void visibleProduct(Product product);
-	public List<Product> getProductListById(long id);
-	//public List<Product> listProductByProductId(long productId);
-	//public List<Product> getProductList();
-	public int  getVisibleProductsCount(long productGroupId);
-	User getUserById(long userId);
 	
 }

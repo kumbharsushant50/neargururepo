@@ -625,7 +625,7 @@ function showUrl() {
                     </div>
                 </div>
             </section>       
-            <!-- <section id="section-about " class="section">
+            <section id="section-about " class="section">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
@@ -642,7 +642,7 @@ function showUrl() {
                         </div>
                     </div>
                 </div>
-            </section> -->
+            </section>
  </div>
   
    </div>

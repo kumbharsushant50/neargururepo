@@ -6,8 +6,6 @@ public class ProductGroupWrapper {
 	
 	public String productGroupName;
 	
-	public String isActive;
-	
 	
 
 	public  boolean listed;
@@ -34,14 +32,6 @@ public class ProductGroupWrapper {
 
 	public void setProductGroupName(String productGroupName) {
 		this.productGroupName = productGroupName;
-	}
-
-	public void setIsActive(String isActive) {
-		this.isActive = isActive;
-	}
-
-	public String getIsActive() {
-		return isActive;
 	}
 
 	

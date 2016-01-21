@@ -22,7 +22,7 @@ public class WrapRequestService {
 	
 	private List<User> listProsForMail;
 	
-	private User ProUser;
+	
 	
 	
 	public List<User> getListProsForMail() {
@@ -134,14 +134,6 @@ public class WrapRequestService {
 
 	public void setRequestService(RequestService requestService) {
 		this.requestService = requestService;
-	}
-
-	public User getProUser() {
-		return ProUser;
-	}
-
-	public void setProUser(User proUser) {
-		ProUser = proUser;
 	}
 	
 	

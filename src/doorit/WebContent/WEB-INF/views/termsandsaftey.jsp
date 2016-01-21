@@ -231,7 +231,7 @@
                     </div>
                 </div>
             </section>
-          <!--    <section id="section-about " class="section">
+             <section id="section-about " class="section">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
@@ -258,7 +258,7 @@
                         </p>
                     </div>
                 </div>
-            </section> -->
+            </section>
              <section id="section-about " class="section">
                 <div class="container">
                     <div class="row">

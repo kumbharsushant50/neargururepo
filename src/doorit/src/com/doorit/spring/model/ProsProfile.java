@@ -78,8 +78,7 @@ public class ProsProfile implements Serializable{
 	
 	private String YearEstablished ; // 2003
 	
-	private String verification="N";//Y or N
-	
+	private String verification;
 	
 	private String yearOfEstablishment;
 	
@@ -290,27 +289,5 @@ public class ProsProfile implements Serializable{
 	public void setYearOfEstablishment(String yearOfEstablishment) {
 		this.yearOfEstablishment = yearOfEstablishment;
 	}
-	
-	/*
-	****
-	***
-	****/
-	@Column(name="VendorVerify")
-	boolean VendorVerify;
-
-	public void setVendorVerify(boolean vendorVerify) {
-		VendorVerify = vendorVerify;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public boolean isVendorVerify() {
-		return VendorVerify;
-	}
-
-
-
 	
 	}

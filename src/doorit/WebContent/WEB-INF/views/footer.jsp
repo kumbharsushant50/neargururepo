@@ -17,19 +17,17 @@
                                  Nearguru helps you to contact, compare and hire the best service provider near you at a price that is right for you . 
                                 </li>
                                 <li style="padding-top:10px">  
-                                   
+                                  
                                  <ul class="social">  
                                 
                              <li> <a  style="cursor:pointer"  onclick="openFooterLinks('https://www.facebook.com/neargurucom')" > <i class=" fa fa-facebook">   </i> </a> </li>
                            	 <li> <a  style="cursor:pointer"  onclick="openFooterLinks('https://twitter.com/Nearguru')"> <i class="fa fa-twitter">   </i> </a> </li>
                              <li> <a  style="cursor:pointer"  onclick="openFooterLinks('https://plus.google.com/+Nearguru')"  > <i class="fa fa-google-plus">   </i> </a> </li>
-                         <!--       <li> <a  style="cursor:pointer"  onclick="openFooterLinks('https://www.pinterest.com/neargurucom/')"  >  <i class="fa fa-pinterest"></i></a> </li>
                              
- -->                             <li> <a  style="cursor:pointer"  onclick="openFooterLinks('https://www.linkedin.com/in/neargurucom')"  >  <i class="fa fa-linkedin"></i></a> </li>
-                                <!--  <li> <a  style="cursor:pointer"  onclick="openFooterLinks('  https://instagram.com/neargurucom/')"  >  <i class="fa fa-instagram"></i></a> </li>
-                         -->       
-                            </ul>     
-                                </li>     
+                              
+                               
+                            </ul>       
+                                </li>    
                                    
                      </ul>            
                            
@@ -39,8 +37,8 @@
                             <h3> Nearguru </h3>
                             <ul>
                                 <li> <a  href="${pageContext.request.contextPath}/AboutUs"  >About Us </a> </li> 
-                            <%--  <li> <a   href="${pageContext.request.contextPath}/location"   >Locations </a> </li> --%>   
-                             <li> <a   href="${pageContext.request.contextPath}/trustandsaftey"   >Trust and Safety </a> </li>
+                             <li> <a   href="${pageContext.request.contextPath}/location"   >Locations </a> </li>   
+                             <li> <a   href="${pageContext.request.contextPath}/trustandsaftey"   >Trust and Saftey </a> </li>
                               <li> <a   href="${pageContext.request.contextPath}/termsOfUsage"   >Terms of Usage </a> </li>
                                <li> <a   href="${pageContext.request.contextPath}/privacyPolicy"   >Privacy  </a> </li> 
                                  <li> <a   style="cursor:pointer"  onclick="openFooterLinks(' http://nearguru.blogspot.in/')"  >Blog  </a> </li>   

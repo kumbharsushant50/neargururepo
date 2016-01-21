@@ -275,7 +275,7 @@ input:focus:required:invalid {
                                      		</div>
                                            
                                             
-                                       <%--  <div class="form-group">
+                                        <div class="form-group">
                                             <label><b>3. Where do you do business</b></b></label>                                   
                                         </div>
                                         <hr/>
@@ -315,7 +315,7 @@ input:focus:required:invalid {
 						     				<form:option value="greater than 50" label=">50 Km"/>
 							  			</form:select>
                                         </div>
-                                        </div> --%>
+                                        </div>
                                          <div class="form-group">
                                            			 <label><b>Year of establishment </b> </label>
                                            			 <form:input id="yearofEstablish"   maxlength="4" class="form-control" path="yearOfEstablishment" />                                          
@@ -346,14 +346,12 @@ input:focus:required:invalid {
 											  <form:form action="${updateServices}" commandName="prosProfile"> 
 											  	 <ul class="list-group"> 
  													 <c:forEach var="map" items="${listProductGroup}"> 
-  														 <c:if test="${map.value.isActive eq 'Y'  }">
-  														 <c:if test="${map.value.listed eq true}">  
+  														 <c:if test="${map.value.listed eq true}"> 
      														 <li class="list-group-item"><form:checkbox class="invalidchecbox"  checked="checked" path="ListedIn" value="${map.key}"/>&nbsp;${map.value.productGroupName}
       													 </c:if>
     													 <c:if test="${map.value.listed eq false}">
      													 <li class="list-group-item">     <form:checkbox   class="invalidchecbox"  path="ListedIn" value="${map.key}"/>&nbsp;${map.value.productGroupName}</li> 
     													 </c:if>
-    													</c:if>
 	    											</c:forEach>
 												</ul> 
                  								<button type="submit" id="btnUpdateServices" class="btn btn-success "><i class="fa fa-save"></i>&nbspSave Services</button> 

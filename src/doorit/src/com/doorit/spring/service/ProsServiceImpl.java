@@ -185,20 +185,7 @@ public List<WrapRequestService> manageRequests(User user,String requestType) {
 	Boolean requestQuoted=false;
 	//System.out.println(prosProfile.getListedIn());
 	int QuoteNumber=0;
-	
-	/***************************
-	**
-	*
-	*
-	*
-	************************
-	*/
-	/*if( prosProfile.getVerification().equals("N"))
-	{
-		System.out.println("Not Verified");
-	}*/
-	
-	if(prosProfile.getListedIn()!=null ){	
+	if(prosProfile.getListedIn()!=null){	
 	requestService=  this.prosDAO.fetchProsDashboard(prosProfile);
 	}
 	if(requestService!=null) {
@@ -215,23 +202,20 @@ public List<WrapRequestService> manageRequests(User user,String requestType) {
 		QuoteNumber=this.customerDAO.getQuoteNumber(rs.getRequestId());
 		//System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>"+rs.getRequestId());
 		//System.out.println(">>>>>>>>>>>>>>>>>>>>>>>"+QuoteNumber);
-    	userObj=	this.customerDAO.getUserById(rs.getUserId());
-	    requestanswer=this.prosDAO.getAnswerById(rs.getRequestId());
+	userObj=	this.customerDAO.getUserById(rs.getUserId());
+	requestanswer=this.prosDAO.getAnswerById(rs.getRequestId());
 	
 	
 	requestQuoted=this.prosDAO.getRequestsQuoted(rs.getRequestId(),user.getUserId());
-	if(requestQuoted==false && prosProfile.getVerification().equals("Y"))
+	if(requestQuoted==false)
 	{
-		
-		
 		wrapRequestService=new WrapRequestService();
 		wrapRequestService.setServiceRequestedDate(date);
 		wrapRequestService.setUser(userObj);
 		wrapRequestService.setQuoteNumber(QuoteNumber);
-	    wrapRequestService.setRequestService(rs);
-        wrapRequestService.setRequestAnswer(requestanswer);
-       
-       
+	wrapRequestService.setRequestService(rs);
+wrapRequestService.setRequestAnswer(requestanswer);
+	
 	wrapRequestServiceList.add(wrapRequestService);
 	}
 	
@@ -364,14 +348,14 @@ public boolean saveEditProfile(ProsProfile prosProfile) {
 	prosProfileObj.setYearOfEstablishment(prosProfile.getYearOfEstablishment());
 	prosProfileObj.setBussinessType(prosProfile.getBussinessType());
 	
-	/*if(prosProfile.getBussinessType().equals("CTOM") || prosProfile.getBussinessType().equals("NEITHER")){
+	if(prosProfile.getBussinessType().equals("CTOM") || prosProfile.getBussinessType().equals("NEITHER")){
 		
 		prosProfileObj.setBussinessDistance(null);
 	}
 	else{
 		
 		prosProfileObj.setBussinessDistance(prosProfile.getBussinessDistance());
-	}*/
+	}
 	prosProfileObj.setUser(user);
 	this.prosDAO.saveEditProfile(prosProfileObj);
 	return true;

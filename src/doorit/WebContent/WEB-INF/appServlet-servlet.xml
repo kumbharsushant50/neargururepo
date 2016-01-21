@@ -96,39 +96,39 @@
 	 
 	 <!--  NeurGuru production data base configration      -->    
  	 
- 	<!--             
-	<beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
+ 	            
+	<!-- <beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
 		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<beans:property name="url"
 			value="jdbc:mysql://aa1cv3lgm2m8c7y.cqzcucr39rg2.us-west-2.rds.amazonaws.com:3306/ebdb" />
 		<beans:property name="username" value="root" />
 		<beans:property name="password" value="nearguru" />
-	</beans:bean>
+	</beans:bean> -->
 	 
-	    -->
+	   
 	   	 <!-- End -->   
 	   
- 	               
+ 	   
 	   <beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
 		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<beans:property name="url"
-			value="jdbc:mysql://localhost:3306/testschema" />
+			value="jdbc:mysql://localhost:3306/testSchema" />
 		<beans:property name="username" value="root" />
 		<beans:property name="password" value="" />
 		</beans:bean>  
                
            
 	   
- <!-- 
-	<beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+
+	<!-- <beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<beans:property name="driverClassName" value="org.hsqldb.jdbcDriver" />
 		<beans:property name="url"
 			value="jdbc:hsqldb:file:/db/testdb2" />
 		<beans:property name="username" value="SA" />
 		<beans:property name="password" value="" />
-	</beans:bean>
-  -->   
+	</beans:bean> -->
+     
    <!-- 
    <beans:bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
         <beans:property name="jndiName" value="java:comp/env/jdbc/nearguru"/>
@@ -157,9 +157,11 @@
 				<beans:value>com.doorit.spring.model.Image</beans:value>
 				<beans:value>com.doorit.spring.model.UserRole</beans:value>
 				<beans:value>com.doorit.spring.model.Document</beans:value>
-				<beans:value>com.doorit.spring.model.ServiceAdvertisement</beans:value>
-				
-				
+				<beans:value>com.doorit.spring.model.CreditBalance</beans:value>
+				<beans:value>com.doorit.spring.model.CreditBuyHist</beans:value>
+				<beans:value>com.doorit.spring.model.CreditPack</beans:value>
+				<beans:value>com.doorit.spring.model.CreditProductMap</beans:value>
+				<beans:value>com.doorit.spring.model.CreditUsed</beans:value>
 			</beans:list>
 		</beans:property>
 		
@@ -196,6 +198,9 @@
 		
 	</beans:bean>
 	
+	 <beans:bean id="creditPointDAO" class="com.doorit.spring.dao.CreditPointDAOImpl">
+		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</beans:bean> 
 	
 	<beans:bean id="adminDAO" class="com.doorit.spring.dao.AdminDAOImpl">
 		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
@@ -224,6 +229,9 @@
 	<!-- end of DAO -->
 	
 	<!-- Service -->
+	<!--  <beans:bean id="creditPointService" class="com.doorit.spring.service.CreditPointServiceImpl">
+		<beans:property name="creditPointDAO" ref="creditPointDAO"></beans:property>
+	</beans:bean>  -->
 	
 	<beans:bean id="documentService" class="com.doorit.spring.service.DocumentServiceImpl">
 		<beans:property name="documentDAO" ref="documentDAO"></beans:property>
@@ -246,7 +254,9 @@
 		<beans:property name="reportDAO" ref="reportDAO"></beans:property>
 	</beans:bean> 
 	 
-	
+	 <beans:bean id="creditService" class="com.doorit.spring.service.CreditPointServiceImpl">
+		
+	</beans:bean> 
 	
 	<!-- end of Service -->
 	

@@ -128,8 +128,8 @@ font-size:25px;
                                           <li><i class="fa fa-map-marker text-danger"></i><c:if test="${quotesRecived.prosProfile.user.sublocality ne ''}">${quotesRecived.prosProfile.user.sublocality},</c:if>${quotesRecived.prosProfile.user.locality}</li>
                                          
                                          
-                                          <li><i class="fa fa-th"></i> <span><a href="${pageContext.request.contextPath}/vendorProfile/${quotesRecived.quote.prosId}/${quotesRecived.requestService.requestId}" >Profile</a></span></li>
-                                         <li><i class="fa fa-phone text-success"></i>&nbsp;${quotesRecived.prosProfile.user.mobile}</li> 
+                                          <li><i class="fa fa-th"></i> <span><a href="${pageContext.request.contextPath}/vendorProfile/${quotesRecived.quote.prosId}/${quotesRecived.requestService.requestId}" >Portfolio</a></span></li>
+                                           	 <li><i class="fa fa-phone text-success"></i>&nbsp;${quotesRecived.prosProfile.user.mobile}</li> 
                                           
                                           <a href="${pageContext.request.contextPath}/prosReviews/${quotesRecived.quote.prosId}/${quotesRecived.requestService.requestId}">    
                                         <li>  

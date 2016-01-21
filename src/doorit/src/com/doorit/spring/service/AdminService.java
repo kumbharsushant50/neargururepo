@@ -5,9 +5,7 @@ import java.util.List;
 import com.doorit.spring.model.Option;
 import com.doorit.spring.model.Product;
 import com.doorit.spring.model.ProductGroup;
-import com.doorit.spring.model.ProsProfile;
 import com.doorit.spring.model.Question;
-import com.doorit.spring.model.Reports;
 import com.doorit.spring.model.User;
 
 public interface AdminService {
@@ -46,10 +44,4 @@ public interface AdminService {
 	public void deleteProduct(long productId);
 	public void deleteProductGroup(long productGroupId);
 	public void updateQuestion(Question question);
-	public void saveVendorVerify(long pros_id, String verification);
-	public void visibleProductGroup(long productGroupId, String isActive);
-	public void visibleProduct(long productId, String isActive);
-	//public void visibleProductGroup(long productGroupId, String isActive, long id);
-	//void visibleProduct(long productId, String isActive, long productGroupId);
-	
 }

@@ -60,41 +60,46 @@
 					<div class="col-md-6">
 						<label style="color: #1D4E64;font-size:40">Product Group Details</label> 
 					</div>	  
-						<div class="col-md-3">  
+						<div class="col-md-2">  
 							 <a href="${pageContext.request.contextPath}/admin/fetchRequests" class="btn btn-lg btn-danger ">View Reports</a>
 						</div> 
-						<div class="col-md-3">   
+						<div class="col-md-2">   
 							 <a href="${pageContext.request.contextPath}/admin/marketingPanel" class="btn btn-lg btn-danger ">Marketing Panel</a>
+						</div>
+						<div class="col-md-2">   
+							 <a href="${pageContext.request.contextPath}/admin/creditProductMapping" class="btn btn-lg btn-danger ">Payment Panel</a>
 						</div>				
 				</div> 
+				
+					<div class="row" style="margin-top:20px;margin-bottom:50px"> 
+					<div class="col-md-6">
+						<label style="color: #1D4E64;font-size:40">Buy pack</label> 
+					</div>	  
+						<div class="col-md-2">   
+							 <a href="${pageContext.request.contextPath}/admin/buyPack" class="btn btn-lg btn-danger ">Buy Pack</a>
+						</div> 
+							</div><div class="col-md-2">   
+							 <a href="${pageContext.request.contextPath}/admin/creditDetails" class="btn btn-lg btn-danger ">Credit Details</a>
+						</div>	  	
+				</div>  
 			 <c:if test="${!empty listProductGroup}">
 			 		<div class="row" style="margin-top:10px">  
-						<div class="col-md-1" ><b><label style="color: #1D4E64;font-size:15 ">Product Grp Id</label></b></div>
-						<div class="col-md-1" ><b><label style="color: #1D4E64;font-size:15 ">Product Grp Name</label></b></div>
+						<div class="col-md-2" ><b><label style="color: #1D4E64;font-size:15 ">Product Grp Id</label></b></div>
+						<div class="col-md-2" ><b><label style="color: #1D4E64;font-size:15 ">Product Grp Name</label></b></div>
 						<div class="col-md-2"><b><label style="color: #1D4E64;font-size:15 ">Product Grp Description</label></b></div> 
 						<div class="col-md-2"><b><label style="color: #1D4E64;font-size:15 ">Add sub Product</label></b></div> 
 						<div class="col-md-2"><b><label style="color: #1D4E64;font-size:15 ">Edit Product Group</label></b></div> 
-						<div class="col-md-2" ><b><label style="color: #1D4E64;font-size:15 ">Delete Product Group</label></b></div>
-						<div class="col-md-2" ><b><label style="color: #1D4E64;font-size:15 ">Visible</label></b></div>  
+						<div class="col-md-2" ><b><label style="color: #1D4E64;font-size:15 ">Delete Product Group</label></b></div>  
 					</div> 
 					<hr/>
 					<c:forEach items="${listProductGroup}" var="productGroup">
 						<div class="row" style="margin-top:10px;margin-bottom:10px"> 
-								<div class="col-md-1" ><b>${productGroup.productGroupId}</b></div>
-								<div class="col-md-1" ><b>${productGroup.productGroupName}</b></div> 
+								<div class="col-md-2" ><b>${productGroup.productGroupId}</b></div>
+								<div class="col-md-2" ><b>${productGroup.productGroupName}</b></div> 
 								<div class="col-md-2" ><b>${productGroup.productGroupDesc}</b></div> 
 								<div class="col-md-2" ><a class="btn btn-primary" href="<c:url value='/admin/addProduct/${productGroup.productGroupId}' />" >Add Sub Product </a></div>
 								<div class="col-md-2" ><a class="btn btn-primary" href="<c:url value='/admin/editProductGroup/${productGroup.productGroupId}' />" >Edit Product Group </a></div>
-								<div class="col-md-2" ><a class="btn btn-primary"  href="<c:url value='/admin/deleteProductGroup/${productGroup.productGroupId}' />" >Delete Product Group </a></div>
-								<div class="col-md-2">          
-							<c:if test="${productGroup.isActive eq 'Y'  }"> 
-								<a  href="${pageContext.request.contextPath}/admin/visibleProductGroup/${productGroup.productGroupId}/Y"  style="width:80%" class="btn btn-success">NO</a>
-							</c:if> <br/>
-							
-							<%--  <c:if test="${productGroup.isActive eq 'N'  }"> 
-								<a  href="${pageContext.request.contextPath}/admin/visibleProductGroup/${productGroup.productGroupId}/N"  style="width:80%" class="btn btn-success">YES</a>
-							 </c:if> --%>
-							</div>   
+								<div class="col-md-2" ><a class="btn btn-primary"  href="<c:url value='/admin/deleteProductGroup/${productGroup.productGroupId}' />" >Delete Product Group </a></div> 
 						</div>
 					</c:forEach>  
 			 </c:if>    
@@ -129,6 +134,7 @@
 </div>
 
 
+  
 
 
 </body>
